@@ -76,10 +76,14 @@
 import { ref, computed, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
 import { useUserStore } from 'src/stores/user-store.js'
+import { useKaryawanStore } from 'src/stores/karyawan-store.js'
+import { usePelangganStore } from 'src/stores/pelanggan-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])
 const userStore = useUserStore()
+const karyawanStore = useKaryawanStore()
+const pelangganStore = usePelangganStore()
 const data = ref({
   name: '',
   email: '',
@@ -108,7 +112,14 @@ const addUser = async () => {
   loading.value = true
 
   try {
-    await userStore.create(data.value)
+    if (data.value.role === "Karyawan") {
+      await karyawanStore.create(data.value)
+    } else if (data.value.role === "Pelanggan") {
+      await pelangganStore.create(data.value)
+    } else {
+      await userStore.create(data.value)
+    }
+
     $q.notify({
       message: 'Berhasil Menambah User',
       icon: 'check',

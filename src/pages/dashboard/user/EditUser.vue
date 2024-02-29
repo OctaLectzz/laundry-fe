@@ -33,10 +33,6 @@
             </div>
 
             <div class="col-5 q-ml-md">
-              <!-- Role -->
-              <div class="text-bold" style="margin-bottom: 10px">Jenis Kelamin :</div>
-              <q-select v-model="data.role" :options="['Admin', 'Karyawan', 'Pelanggan']" label="Pilih Role" dense outlined required :rules="roleRules" />
-
               <!-- Jenis Kelamin -->
               <div class="text-bold" style="margin-bottom: 10px">Jenis Kelamin :</div>
               <div class="q-gutter-sm">
