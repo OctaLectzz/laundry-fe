@@ -9,6 +9,7 @@ const routes = [
     component: () => import('layouts/DashboardLayout.vue'),
     children: [
       { path: 'home', name: 'dashboardhome', component: () => import('pages/dashboard/IndexDashboardPage.vue') },
+      { path: 'user', name: 'dashboarduser', component: () => import('pages/dashboard/user/IndexUser.vue') },
       { path: 'karyawan', name: 'dashboardkaryawan', component: () => import('pages/dashboard/karyawan/IndexKaryawan.vue') },
       { path: 'barang', name: 'dashboardbarang', component: () => import('pages/dashboard/barang/IndexBarang.vue') },
       { path: 'jenislayanan', name: 'dashboardjenislayanan', component: () => import('pages/dashboard/jenislayanan/IndexJenisLayanan.vue') },

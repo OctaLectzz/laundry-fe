@@ -32,6 +32,16 @@
           </q-item-section>
         </q-item>
 
+        <!-- User -->
+        <q-item :to="{ name: 'dashboarduser' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
+          <q-item-section avatar>
+            <q-icon name="account_circle" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>User</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <!-- Karyawan -->
         <q-item :to="{ name: 'dashboardkaryawan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
