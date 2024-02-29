@@ -125,19 +125,16 @@ const toggleLeftDrawer = () => {
   border-left: solid 0.313rem #6571ff;
   box-shadow: none;
 }
-
 .menu-click {
   border-left: solid 0.313rem transparent;
+}
+.menu-click:hover .q-item-label {
+  color: #000000 !important;
 }
 
 .menu-active {
   background-color: #dfe3ff !important;
   border-left: solid 0.313rem #6571ff;
   box-shadow: none;
-}
-
-/* Hover Text Color */
-.menu-click:hover .q-item-label {
-  color: #000000 !important;
 }
 </style>
