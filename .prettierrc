@@ -1,0 +1,16 @@
+{
+  "printWidth": 200,
+  "max-len": [
+    2,
+    {
+      "code": 120,
+      "tabWidth": 2,
+      "ignoreUrls": true,
+      "ignoreStrings": true
+    }
+  ],
+  "semi": false,
+  "singleQuote": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "trailingComma": "none"
+}
