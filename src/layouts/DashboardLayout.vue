@@ -35,7 +35,7 @@
         <!-- Karyawan -->
         <q-item :to="{ name: 'dashboardkaryawan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="contact_mail" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Karyawan</q-item-label>
@@ -45,7 +45,7 @@
         <!-- Barang -->
         <q-item :to="{ name: 'dashboardbarang' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="category" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Barang</q-item-label>
@@ -55,7 +55,7 @@
         <!-- Jenis Layanan -->
         <q-item :to="{ name: 'dashboardjenislayanan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="format_list_bulleted" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Jenis Layanan</q-item-label>
@@ -65,7 +65,7 @@
         <!-- Pelanggan -->
         <q-item :to="{ name: 'dashboardpelanggan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="people" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Pelanggan</q-item-label>
@@ -75,7 +75,7 @@
         <!-- Nota -->
         <q-item :to="{ name: 'dashboardnota' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="text_snippet" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Nota</q-item-label>
