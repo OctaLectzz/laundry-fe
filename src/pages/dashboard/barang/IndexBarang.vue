@@ -88,9 +88,7 @@
                   </div>
 
                   <!-- Harga -->
-                  <div v-else-if="col.name === 'harga'" text-color="white" dense square>
-                    Rp. {{ props.row.harga }}
-                  </div>
+                  <div v-else-if="col.name === 'harga'" text-color="white" dense square>Rp. {{ props.row.harga }}</div>
 
                   <!-- Action -->
                   <div v-else-if="col.name === 'action'">
@@ -220,7 +218,7 @@ const currencyColumns = [
   {
     name: 'harga',
     field: 'harga',
-    label: 'Harga',
+    label: 'Harga Satuan',
     align: 'left',
     sortable: true
   },
