@@ -58,7 +58,7 @@
             <q-icon name="category" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Barang</q-item-label>
+            <q-item-label>Barang Satuan</q-item-label>
           </q-item-section>
         </q-item>
 

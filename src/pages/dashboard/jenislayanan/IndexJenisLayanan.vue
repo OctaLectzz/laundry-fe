@@ -225,7 +225,7 @@ const currencyColumns = [
   {
     name: 'harga',
     field: 'harga',
-    label: 'Harga',
+    label: 'Harga Kiloan',
     align: 'left',
     sortable: true
   },

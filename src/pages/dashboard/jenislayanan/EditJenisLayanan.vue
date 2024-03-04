@@ -3,7 +3,7 @@
     <q-form @submit="editUser">
       <q-card style="min-width: 400px">
         <q-card-section class="row items-center q-py-sm">
-          <div class="text-h6">Edit Jenis Layana</div>
+          <div class="text-h6">Edit Jenis Layanan</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
