@@ -6,34 +6,22 @@
   </head>
 
   <body>
-    <!-- Header -->
-    <section id="header">
-      <div class="header container">
-        <div class="nav-bar">
-          <div class="brand">
-            <a href="#hero">
-              <h1>
-                <span>Laun</span>
-                Dry
-              </h1>
-            </a>
-          </div>
-          <div class="nav-list">
-            <div class="hamburger">
-              <div class="bar"></div>
-            </div>
-            <ul>
-              <li><a href="#hero" data-after="Home">Home</a></li>
-              <li><a href="#about" data-after="About">About</a></li>
-              <li><a href="#services" data-after="Service">Service</a></li>
-              <li><a href="#projects" data-after="Projects">Login</a></li>
-              <li><a href="#contact" data-after="Contact">Register</a></li>
-            </ul>
-          </div>
+    <!-- Navbar -->
+      <nav class="navbar">
+        <a href="#" class="logo">LOGO</a>
+        <input type="checkbox" id="toggler">
+        <label for="toggler"><i class="ri-menu-line"></i></label>
+        <div class="menu">
+          <ul class="list">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Home</a></li>
+
+          </ul>
         </div>
-      </div>
-    </section>
-    <!-- End Header -->
+      </nav>
+    <!-- End Navbar -->
 
     <!-- Hero Section  -->
     <section id="hero">
