@@ -7,20 +7,21 @@
 
   <body>
     <!-- Navbar -->
-      <nav class="navbar">
-        <a href="#" class="logo">LOGO</a>
-        <input type="checkbox" id="toggler">
-        <label for="toggler"><i class="ri-menu-line"></i></label>
-        <div class="menu">
-          <ul class="list">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Home</a></li>
-
-          </ul>
-        </div>
-      </nav>
+    <nav class="navbar">
+      <a href="#" class="logo">LOGO</a>
+      <input type="checkbox" id="toggler" />
+      <label for="toggler"><i class="ri-menu-line"></i></label>
+      <div class="menu">
+        <ul class="list">
+          <li><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Service</a></li>
+          <li><a href="#">Daftar Paket</a></li>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">Register</a></li>
+        </ul>
+      </div>
+    </nav>
     <!-- End Navbar -->
 
     <!-- Hero Section  -->
@@ -40,7 +41,7 @@
             <span></span>
           </h1>
 
-          <a href="#projects" type="button" class="cta">Hubungi kami</a>
+          <a href="https://wa.me/62895605476149?text=Hi%20ilyas" class="cta" target="_blank">Hubungi kami</a>
         </div>
       </div>
     </section>
