@@ -2,7 +2,7 @@
   <head>
     <title>Landing Page Laundry</title>
     <link rel="stylesheet" href="src/css/styles.css" />
-    <link rel="stylesheet" href="src/css/bootstrap.css" />
+        <link rel="stylesheet" href="src/css/bootstrap.css" />
   </head>
 
   <body>
@@ -234,6 +234,9 @@
     </section>
     <!-- End Contact Section -->
 
+    <a href="https://wa.me/62895605476149?text=Hi%20ilyas" class="floating" target="_blank">
+      <i class="fab fa-whatsapp fab-icon"></i>
+    </a>
     <!-- Footer -->
     <section id="footer">
       <div class="footer container">
