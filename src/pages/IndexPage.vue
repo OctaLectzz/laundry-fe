@@ -2,7 +2,7 @@
   <head>
     <title>Landing Page Laundry</title>
     <link rel="stylesheet" href="src/css/styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-xxx" crossorigin="anonymous" />
+    <link rel="stylesheet" href="src/css/bootstrap.css" />
   </head>
 
   <body>
@@ -233,10 +233,7 @@
       </div>
     </section>
     <!-- End Contact Section -->
-    <!-- render the button and direct it to wa.me -->
-    <a href="https://wa.me/62895605476149?text=Hi%20ilyas" class="floating" target="_blank">
-      <i class="fab fa-whatsapp fab-icon"></i>
-    </a>
+
     <!-- Footer -->
     <section id="footer">
       <div class="footer container">
@@ -268,10 +265,6 @@
   </body>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IndexPage'
-})
+<script setup>
+import 'src/js/bootstrap.js'
 </script>
