@@ -5,6 +5,14 @@ const routes = [
     children: [{ path: '', name: 'home', component: () => import('pages/IndexPage.vue') }]
   },
   {
+    path: '/auth',
+    component: () => import('layouts/AuthLayout.vue'),
+    children: [
+      { path: 'login', name: 'login', component: () => import('pages/auth/LoginPage.vue') },
+      { path: 'register', name: 'register', component: () => import('pages/auth/RegisterPage.vue') }
+    ]
+  },
+  {
     path: '/dashboard',
     component: () => import('layouts/DashboardLayout.vue'),
     children: [

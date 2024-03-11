@@ -19,7 +19,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-white text-black">
+    <q-drawer v-model="leftDrawerOpen" show-if-above :mini="miniState" @mouseover="miniState = false" @mouseout="miniState = true" :width="250" bordered class="bg-white text-black">
       <div class="text-h5 text-bold q-pa-xl">Laundry</div>
       <q-list>
         <!-- Home -->
@@ -123,9 +123,11 @@ import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 
 const leftDrawerOpen = ref(false)
+const miniState = ref(false)
 const $q = useQuasar()
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
+  miniState.value = !miniState.value
 }
 </script>
 

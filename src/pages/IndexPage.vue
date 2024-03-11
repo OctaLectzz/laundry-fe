@@ -7,22 +7,7 @@
 
   <body>
     <!-- Navbar -->
-    <nav class="navbar">
-      <a href="#" class="logo">LOGO</a>
-      <input type="checkbox" id="toggler" />
-      <label for="toggler"><i class="ri-menu-line"></i></label>
-      <div class="menu">
-        <ul class="list">
-          <li><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Service</a></li>
-          <li><a href="#">Daftar Paket</a></li>
-          <li><a href="#">Login</a></li>
-          <li><a href="#">Register</a></li>
-        </ul>
-      </div>
-    </nav>
-    <!-- End Navbar -->
+    <Navbar />
 
     <!-- Hero Section  -->
     <section id="hero">
@@ -89,78 +74,87 @@
 
     <!-- Projects Section -->
     <section id="projects">
-      <div class="projects container">
-        <div class="projects-header">
-          <h1 class="section-title">
-            Recent
-            <span>Projects</span>
-          </h1>
-        </div>
-        <div class="all-projects">
-          <div class="project-item">
-            <div class="project-info">
-              <h1>Project 1</h1>
-              <h2>Coding is Love</h2>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo
-                neque atque libero non sunt harum? Ipsum repellat animi, fugit architecto voluptatum odit et!
-              </p>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
             </div>
-            <!-- <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div> -->
           </div>
-          <div class="project-item">
-            <div class="project-info">
-              <h1>Project 2</h1>
-              <h2>Coding is Love</h2>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo
-                neque atque libero non sunt harum? Ipsum repellat animi, fugit architecto voluptatum odit et!
-              </p>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
             </div>
-            <!-- <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div> -->
           </div>
-          <div class="project-item">
-            <div class="project-info">
-              <h1>Project 3</h1>
-              <h2>Coding is Love</h2>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo
-                neque atque libero non sunt harum? Ipsum repellat animi, fugit architecto voluptatum odit et!
-              </p>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
             </div>
-            <!-- <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div> -->
           </div>
-          <div class="project-item">
-            <div class="project-info">
-              <h1>Project 4</h1>
-              <h2>Coding is Love</h2>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo
-                neque atque libero non sunt harum? Ipsum repellat animi, fugit architecto voluptatum odit et!
-              </p>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
             </div>
-            <!-- <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div> -->
           </div>
-          <div class="project-item">
-            <div class="project-info">
-              <h1>Project 5</h1>
-              <h2>Coding is Love</h2>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo
-                neque atque libero non sunt harum? Ipsum repellat animi, fugit architecto voluptatum odit et!
-              </p>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
             </div>
-            <!-- <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div> -->
+          </div>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card m-2 my-4">
+              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -263,4 +257,5 @@
 
 <script setup>
 import 'src/js/bootstrap.js'
+import Navbar from "src/components/NavbarPage.vue"
 </script>
