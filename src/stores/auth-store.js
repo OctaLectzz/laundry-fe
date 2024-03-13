@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { server } from 'src/boot/axios'
+import { server } from '../boot/axios'
 
 const token = localStorage.getItem('token')
+const role = localStorage.getItem('role')
 const headers = {
   Authorization: `Bearer ${token}`
 }
@@ -12,32 +13,50 @@ export const useAuthStore = defineStore('auth', {
     name: null,
     email: null,
     password: null,
-    passwordConfirmation: null,
-    role: null,
-    jenis_kelamin: null,
-    alamat: null
+    role: null
   }),
+
   getters: {},
+
   actions: {
-    async all() {
-      return await server.get('api/auth', { headers })
+    async profile() {
+      try {
+        return await server.get('api/auth/profile', { headers })
+      } catch (error) {
+        if (error) throw error
+      }
     },
 
-    async show(id) {
-      return await server.get(`api/auth/${id}`, { headers })
+    async register(name, email, password, repassword) {
+      try {
+        return await server.post('api/auth/register', {
+          name,
+          email,
+          password,
+          repassword
+        })
+      } catch (error) {
+        if (error) throw error
+      }
     },
 
-    async create(form) {
-      return await server.post('api/auth', form, { headers })
+    async login(email, password) {
+      try {
+        return await server.post('api/auth/login', { email, password })
+      } catch (error) {
+        if (error) throw error
+      }
     },
 
-    async edit(form) {
-      return await server.put(`api/auth/${form.id}`, form, { headers })
-    },
+    async logout() {
+      try {
+        await server.get('api/auth/logout', { headers })
 
-    async delete(id) {
-      return await server.delete(`api/auth/${id}`, { headers })
+        localStorage.removeItem('token')
+        localStorage.removeItem('role')
+      } catch (error) {
+        if (error) throw error
+      }
     }
-  },
-  persist: true
+  }
 })

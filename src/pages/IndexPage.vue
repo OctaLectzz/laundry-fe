@@ -1,10 +1,4 @@
 <template>
-  <head>
-    <title>Landing Page Laundry</title>
-    <link rel="stylesheet" href="src/css/styles.css" />
-    <link rel="stylesheet" href="src/css/bootstrap.css" />
-  </head>
-
   <body>
     <!-- Navbar -->
     <Navbar />
@@ -256,6 +250,8 @@
 </template>
 
 <script setup>
+import 'src/css/styles.css'
+import 'src/css/bootstrap.css'
 import 'src/js/bootstrap.js'
-import Navbar from "src/components/NavbarPage.vue"
+import Navbar from 'src/components/NavbarPage.vue'
 </script>
