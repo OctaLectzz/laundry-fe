@@ -4,7 +4,7 @@
       flat
       bordered
       class="statement-table"
-      title="Barang"
+      title="Kiloan"
       :rows="currencyData"
       :hide-header="grid"
       :columns="currencyColumns"
@@ -35,12 +35,12 @@
         </q-input>
       </template>
 
-      <!-- Add Barang -->
+      <!-- Add Kiloan -->
       <template v-slot:top-left>
-        <div class="text-h5 q-pr-lg">Barang</div>
-        <q-btn dense @click="addBarangDialog = true" color="black" icon="add" class="shadow-3"><q-tooltip>Add Barang</q-tooltip></q-btn>
-        <q-dialog v-model="addBarangDialog" persistent>
-          <CreateBarang @added="barangAdded" />
+        <div class="text-h5 q-pr-lg">Kiloan</div>
+        <q-btn dense @click="addKiloanDialog = true" color="black" icon="add" class="shadow-3"><q-tooltip>Add Kiloan</q-tooltip></q-btn>
+        <q-dialog v-model="addKiloanDialog" persistent>
+          <CreateKiloan @added="kiloanAdded" />
         </q-dialog>
       </template>
 
@@ -62,12 +62,12 @@
       <!-- Action -->
       <template #body-cell-action="props">
         <q-td :props="props">
-          <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editBarang(props.row)">
-            <q-dialog v-model="editBarangDialog" persistent>
-              <EditBarang @edited="barangEdited(props.row)" :barang="barangData" />
+          <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editKiloan(props.row)">
+            <q-dialog v-model="editKiloanDialog" persistent>
+              <EditKiloan @edited="kiloanEdited(props.row)" :kiloan="kiloanData" />
             </q-dialog>
           </q-btn>
-          <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteBarangDialog(props.row)" />
+          <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteKiloanDialog(props.row)" />
         </q-td>
       </template>
 
@@ -92,12 +92,12 @@
 
                   <!-- Action -->
                   <div v-else-if="col.name === 'action'">
-                    <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editBarang(props.row)">
-                      <q-dialog v-model="editBarangDialog" persistent>
-                        <EditBarang @edited="barangEdited(props.row)" :barang="barangData" />
+                    <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editKiloan(props.row)">
+                      <q-dialog v-model="editKiloanDialog" persistent>
+                        <EditKiloan @edited="kiloanEdited(props.row)" :kiloan="kiloanData" />
                       </q-dialog>
                     </q-btn>
-                    <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteBarangDialog(props.row)" />
+                    <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteKiloanDialog(props.row)" />
                   </div>
 
                   <!-- DLL -->
@@ -117,19 +117,19 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { url } from 'src/boot/axios'
-import { useBarangStore } from 'src/stores/barang-store'
-import CreateBarang from './CreateBarang.vue'
-import EditBarang from './EditBarang.vue'
+import { useKiloanStore } from 'src/stores/kiloan-store'
+import CreateKiloan from './CreateKiloan.vue'
+import EditKiloan from './EditKiloan.vue'
 
 const $q = useQuasar()
 const router = useRouter()
-const barangStore = useBarangStore()
+const kiloanStore = useKiloanStore()
 
-const barangs = ref([])
-const getBarang = async () => {
+const kiloans = ref([])
+const getKiloan = async () => {
   try {
-    const res = await barangStore.all()
-    barangs.value = res.data.data
+    const res = await kiloanStore.all()
+    kiloans.value = res.data.data
 
     if (res.data.response === 'Failed') {
       router.push('/notfound')
@@ -139,30 +139,30 @@ const getBarang = async () => {
   }
 }
 onMounted(() => {
-  getBarang()
+  getKiloan()
 })
 
-// Create Barang
-const addBarangDialog = ref(false)
-const barangAdded = () => {
-  addBarangDialog.value = false
-  getBarang()
+// Create Kiloan
+const addKiloanDialog = ref(false)
+const kiloanAdded = () => {
+  addKiloanDialog.value = false
+  getKiloan()
 }
 
-// Edit Barang
-const editBarangDialog = ref(false)
-const barangData = ref('')
-const editBarang = (row) => {
-  editBarangDialog.value = true
-  barangData.value = row
+// Edit Kiloan
+const editKiloanDialog = ref(false)
+const kiloanData = ref('')
+const editKiloan = (row) => {
+  editKiloanDialog.value = true
+  kiloanData.value = row
 }
-const barangEdited = () => {
-  editBarangDialog.value = false
-  getBarang()
+const kiloanEdited = () => {
+  editKiloanDialog.value = false
+  getKiloan()
 }
 
-// Delete Barang
-const deleteBarangDialog = (row) => {
+// Delete Kiloan
+const deleteKiloanDialog = (row) => {
   $q.dialog({
     title: 'WARNING!',
     message: 'Apakah kamu yakin ingin menghapus data ini?',
@@ -177,19 +177,19 @@ const deleteBarangDialog = (row) => {
       color: 'red-7'
     }
   }).onOk(() => {
-    deleteBarang(row)
+    deleteKiloan(row)
   })
 }
-const deleteBarang = async (row) => {
+const deleteKiloan = async (row) => {
   try {
-    const res = await barangStore.delete(row.id)
+    const res = await kiloanStore.delete(row.id)
 
     if (res.data.status === 'Success') {
       $q.notify({
         color: 'positive',
         message: res.data.message
       })
-      getBarang()
+      getKiloan()
     }
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -201,7 +201,7 @@ const deleteBarang = async (row) => {
 }
 
 // Table
-const currencyData = barangs
+const currencyData = kiloans
 const currencyColumns = [
   {
     name: 'id',
@@ -209,16 +209,23 @@ const currencyColumns = [
     label: 'ID'
   },
   {
-    name: 'name',
-    field: 'name',
-    label: 'Nama',
+    name: 'paket',
+    field: 'paket',
+    label: 'Nama Paket',
     align: 'left',
     sortable: true
   },
   {
     name: 'harga',
     field: 'harga',
-    label: 'Harga Satuan',
+    label: 'Harga Per KG',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'description',
+    field: 'description',
+    label: 'Deskripsi',
     align: 'left',
     sortable: true
   },

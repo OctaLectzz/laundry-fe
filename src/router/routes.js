@@ -2,7 +2,9 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', name: 'home', component: () => import('pages/IndexPage.vue') }]
+    children: [
+      { path: '', name: 'home', component: () => import('pages/IndexPage.vue') }
+    ]
   },
   {
     path: '/auth',
@@ -20,6 +22,7 @@ const routes = [
       { path: 'user', name: 'dashboarduser', component: () => import('pages/dashboard/user/IndexUser.vue') },
       { path: 'karyawan', name: 'dashboardkaryawan', component: () => import('pages/dashboard/karyawan/IndexKaryawan.vue') },
       { path: 'barang', name: 'dashboardbarang', component: () => import('pages/dashboard/barang/IndexBarang.vue') },
+      { path: 'kiloan', name: 'dashboardkiloan', component: () => import('pages/dashboard/kiloan/IndexKiloan.vue') },
       { path: 'jenislayanan', name: 'dashboardjenislayanan', component: () => import('pages/dashboard/jenislayanan/IndexJenisLayanan.vue') },
       { path: 'pelanggan', name: 'dashboardpelanggan', component: () => import('pages/dashboard/pelanggan/IndexPelanggan.vue') }
     ]

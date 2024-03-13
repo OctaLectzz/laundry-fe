@@ -55,7 +55,7 @@
       <!-- Harga -->
       <template #body-cell-harga="props">
         <q-td :props="props">
-          <div text-color="white" dense square>Rp. {{ props.row.harga }}</div>
+          <div text-color="white" dense square>{{ formatCurrency(props.row.harga) }}</div>
         </q-td>
       </template>
 
@@ -88,7 +88,7 @@
                   </div>
 
                   <!-- Harga -->
-                  <div v-else-if="col.name === 'harga'" text-color="white" dense square>Rp. {{ props.row.harga }}</div>
+                  <div v-else-if="col.name === 'harga'" text-color="white" dense square>{{ formatCurrency(props.row.harga) }}</div>
 
                   <!-- Action -->
                   <div v-else-if="col.name === 'action'">
@@ -225,7 +225,7 @@ const currencyColumns = [
   {
     name: 'harga',
     field: 'harga',
-    label: 'Harga Kiloan',
+    label: 'Tambahan Harga',
     align: 'left',
     sortable: true
   },
@@ -241,5 +241,14 @@ const grid = ref(false)
 const pagination = ref({})
 const setFs = (props) => {
   props.toggleFullscreen()
+}
+
+// Format Currency
+const formatCurrency = (amount) => {
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  })
+  return formatter.format(amount)
 }
 </script>

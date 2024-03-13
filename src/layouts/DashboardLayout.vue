@@ -52,13 +52,23 @@
           </q-item-section>
         </q-item>
 
-        <!-- Barang -->
+        <!-- Barang Satuan -->
         <q-item :to="{ name: 'dashboardbarang' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
             <q-icon name="category" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Barang Satuan</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <!-- Paket Kiloan -->
+        <q-item :to="{ name: 'dashboardkiloan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
+          <q-item-section avatar>
+            <q-icon name="inventory_2" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Paket Kiloan</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -73,14 +83,14 @@
         </q-item>
 
         <!-- Pelanggan -->
-        <q-item :to="{ name: 'dashboardpelanggan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
+        <!-- <q-item :to="{ name: 'dashboardpelanggan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
             <q-icon name="people" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Pelanggan</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!-- Nota -->
         <q-item :to="{ name: 'dashboardnota' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
