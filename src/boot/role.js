@@ -10,10 +10,10 @@ export default ({ router }) => {
         next()
       } else {
         // Jika tidak memiliki peran yang sesuai, redirect ke halaman lain atau tampilkan pesan kesalahan
-        if (to.path !== '/home') {
-          next('/home')
+        if (to.path !== '/') {
+          next('/')
         } else {
-          // Avoid redirection loop, if already on "/home", just let it pass
+          // Avoid redirection loop, if already on "/", just let it pass
           next()
         }
       }

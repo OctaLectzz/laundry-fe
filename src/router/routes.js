@@ -2,21 +2,18 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', name: 'home', component: () => import('pages/IndexPage.vue') }
-    ]
+    children: [{ path: '', name: 'home', component: () => import('pages/IndexPage.vue') }]
   },
   {
     path: '/auth',
     component: () => import('layouts/AuthLayout.vue'),
-    children: [
-      { path: 'login', name: 'login', component: () => import('pages/auth/LoginPage.vue') },
-      { path: 'register', name: 'register', component: () => import('pages/auth/RegisterPage.vue') }
-    ]
+    meta: { requiresAuth: false },
+    children: [{ path: '', name: 'auth', component: () => import('pages/auth/AuthPage.vue') }]
   },
   {
     path: '/dashboard',
     component: () => import('layouts/DashboardLayout.vue'),
+    meta: { requiresAuth: true, roles: ['Admin', 'Karyawan'] },
     children: [
       { path: 'home', name: 'dashboardhome', component: () => import('pages/dashboard/IndexDashboardPage.vue') },
       { path: 'user', name: 'dashboarduser', component: () => import('pages/dashboard/user/IndexUser.vue') },

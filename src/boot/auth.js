@@ -6,20 +6,14 @@ export default ({ router }) => {
     if (to.meta.requiresAuth) {
       if (!token) {
         // Redirect ke halaman login jika tidak ada token
-        next('/')
+        next('/auth')
       } else {
         // Lanjutkan navigasi jika token ada
         next()
       }
-    } else if (to.name === 'login' && token) {
+    } else if (to.name === 'auth' && token) {
       // Jika pengguna sudah memiliki token, redirect dari halaman login
-      next('/')
-    } else if (to.name === 'register' && token) {
-      // Jika pengguna sudah memiliki token, redirect dari halaman login
-      next('/')
-    } else if (to.name === 'getstarted' && token) {
-      // Jika pengguna sudah memiliki token, redirect dari halaman login
-      next('/')
+      next({ name: 'home' })
     } else {
       // Jika route tidak memerlukan autentikasi, lanjutkan navigasi
       next()

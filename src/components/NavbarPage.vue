@@ -29,13 +29,13 @@
           </li>
         </ul>
         <div v-if="token">
-          <a class="btn btn-lg mx-1 fs-2 btn-danger text-light" href="/dashboard/home">Dashboard</a>
+          <a v-if="role != 'Pelanggan'" class="btn btn-lg mx-1 fs-2 btn-danger text-light" href="/dashboard/home">Dashboard</a>
           <a class="btn mx-1 fs-4 btn-transparent text-light" @click="logout">Logout</a>
         </div>
         <div v-else>
           <form class="d-flex">
-            <a class="btn mx-1 fs-4 btn-transparent text-light" href="/auth/login">Login</a>
-            <a class="btn mx-1 fs-4 btn-danger text-light" href="/auth/register">Register</a>
+            <a class="btn mx-1 fs-4 btn-transparent text-light" href="/auth">Login</a>
+            <a class="btn mx-1 fs-4 btn-danger text-light" href="/auth">Register</a>
           </form>
         </div>
       </div>
@@ -52,6 +52,7 @@ const $q = useQuasar()
 const router = useRouter()
 const authStore = useAuthStore()
 const token = localStorage.getItem('token')
+const role = localStorage.getItem('role')
 
 // Logout
 const logout = async () => {
@@ -63,7 +64,7 @@ const logout = async () => {
       icon: 'check',
       color: 'positive'
     })
-    router.push({ name: 'login' })
+    router.push({ name: 'auth' })
     window.location.reload()
   } catch (error) {
     console.error('Error submitting form:', error)

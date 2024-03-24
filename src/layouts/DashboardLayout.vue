@@ -33,7 +33,7 @@
         </q-item>
 
         <!-- User -->
-        <q-item :to="{ name: 'dashboarduser' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
+        <q-item v-if="role == 'Admin'" :to="{ name: 'dashboarduser' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
             <q-icon name="account_circle" />
           </q-item-section>
@@ -43,7 +43,7 @@
         </q-item>
 
         <!-- Karyawan -->
-        <q-item :to="{ name: 'dashboardkaryawan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
+        <q-item v-if="role == 'Admin'" :to="{ name: 'dashboardkaryawan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click">
           <q-item-section avatar>
             <q-icon name="contact_mail" />
           </q-item-section>
@@ -129,8 +129,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
+import { useAuthStore } from 'src/stores/auth-store'
+
+const authStore = useAuthStore()
+const role = localStorage.getItem('role')
 
 const leftDrawerOpen = ref(false)
 const miniState = ref(false)
@@ -139,6 +143,23 @@ const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
   miniState.value = !miniState.value
 }
+
+const profile = ref([])
+const getProfile = async () => {
+  try {
+    const res = await authStore.profile()
+    profile.value = res.data.data
+
+    if (res.data.response === 'Failed') {
+      router.push('/notfound')
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+onMounted(() => {
+  getProfile()
+})
 </script>
 
 <style scoped>
