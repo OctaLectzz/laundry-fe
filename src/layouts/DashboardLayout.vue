@@ -10,16 +10,50 @@
           <q-btn round dense flat color="dark" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" @click="$q.fullscreen.toggle()" v-if="$q.screen.gt.sm"></q-btn>
 
           <!-- Profile -->
-          <q-btn round flat>
-            <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-            </q-avatar>
-          </q-btn>
+          <q-skeleton v-if="loading" type="QBtn" width="100px" />
+          <q-btn-dropdown v-else :label="profile.name" no-caps>
+            <div class="row no-wrap q-pa-md">
+              <div class="column">
+                <q-list>
+                  <q-item clickable v-close-popup @click="navigateTo('home')">
+                    <q-item-section>
+                      <q-item-label>Home</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="navigateTo('home')">
+                    <q-item-section>
+                      <q-item-label>Edit Profile</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="navigateTo('home')">
+                    <q-item-section>
+                      <q-item-label>Articles</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
+
+              <q-separator vertical inset class="q-mx-md" />
+
+              <div class="column items-center">
+                <q-avatar size="72px">
+                  <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                </q-avatar>
+
+                <div class="text-subtitle1 text-bold q-mt-sm">{{ profile.name }}</div>
+                <div class="text-subtitle2 text-grey-8 q-mb-sm" style="margin-top: -7px">{{ profile.email }}</div>
+
+                <q-btn color="primary" label="Logout" push size="sm" v-close-popup @click="logout" />
+              </div>
+            </div>
+          </q-btn-dropdown>
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above :mini="miniState" @mouseover="miniState = false" @mouseout="miniState = true" :width="250" bordered class="bg-white text-black">
+    <q-drawer v-model="leftDrawerOpen" show-if-above :mini="miniState" :width="250" bordered class="bg-white text-black">
       <div class="text-h5 text-bold q-pa-xl">Laundry</div>
       <q-list>
         <!-- Home -->
@@ -104,18 +138,6 @@
       </q-list>
 
       <q-separator />
-
-      <!-- Kembali ke Beranda -->
-      <q-list class="">
-        <q-item to="/" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="reply_all" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Ke Beranda</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
     </q-drawer>
 
     <q-page-container class="bg-grey-2">
@@ -130,21 +152,23 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useAuthStore } from 'src/stores/auth-store'
 
+const $q = useQuasar()
+const router = useRouter()
 const authStore = useAuthStore()
 const role = localStorage.getItem('role')
 
 const leftDrawerOpen = ref(false)
 const miniState = ref(false)
-const $q = useQuasar()
 const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value
   miniState.value = !miniState.value
 }
 
 const profile = ref([])
+const loading = ref(true)
 const getProfile = async () => {
   try {
     const res = await authStore.profile()
@@ -153,6 +177,8 @@ const getProfile = async () => {
     if (res.data.response === 'Failed') {
       router.push('/notfound')
     }
+
+    loading.value = false
   } catch (error) {
     console.error('Error fetching data:', error)
   }
@@ -160,6 +186,40 @@ const getProfile = async () => {
 onMounted(() => {
   getProfile()
 })
+
+// Navigate
+const navigateTo = (routeName) => {
+  router.push({ name: routeName })
+}
+
+// Logout
+const logout = async () => {
+  $q.dialog({
+    title: 'Logout',
+    message: 'Apakah kamu yakin?',
+    cancel: true,
+    persistent: true
+  }).onOk(async () => {
+    try {
+      await authStore.logout()
+
+      $q.notify({
+        message: 'Logout Berhasil',
+        icon: 'check',
+        color: 'positive'
+      })
+      router.push({ name: 'auth' })
+      window.location.reload()
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      $q.notify({
+        message: error.response.data.message || 'Logout Gagal',
+        icon: 'warning',
+        color: 'negative'
+      })
+    }
+  })
+}
 </script>
 
 <style scoped>
