@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
-      <img class="navbar-brand p-3" src="src/assets/logo.png" style="width: 80px" />
+      <img class="navbar-brand p-3" src="logo.png" style="width: 80px" />
       <button
         class="navbar-toggler"
         type="button"

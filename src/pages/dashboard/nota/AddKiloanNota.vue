@@ -49,7 +49,7 @@
             </div>
 
             <!-- Paket Kiloan -->
-            <div class="col-sm-3 col-xs-10">
+            <div class="col-sm-5 col-xs-10">
               <div class="text-bold">Paket Kiloan :</div>
               <q-select
                 v-model="data.kiloan"
@@ -69,31 +69,11 @@
             </div>
 
             <!-- Berat -->
-            <div class="col-sm-3 col-xs-10">
+            <div class="col-sm-5 col-xs-10">
               <div class="text-bold" style="margin-bottom: -10px">Berat :</div>
               <q-input v-model="data.berat" type="number" label="Berat" class="q-my-sm" dense outlined required :rules="beratRules">
                 <template v-slot:append>kg</template>
               </q-input>
-            </div>
-
-            <!-- Jenis Layanan -->
-            <div class="col-sm-3 col-xs-10">
-              <div class="text-bold">Jenis Layanan :</div>
-              <q-select
-                v-model="data.jenis_layanan"
-                use-input
-                hide-selected
-                fill-input
-                input-debounce="0"
-                :options="jenislayananOptions"
-                @filter="jenislayananFilter"
-                label="Pilih Jenis Layanan"
-                emit-value
-                dense
-                outlined
-                required
-                :rules="jenislayananRules"
-              />
             </div>
           </div>
 
@@ -165,8 +145,6 @@ const data = ref({
   kiloan_id: null,
   kiloan: '',
   berat: 1,
-  jenis_layanan_id: null,
-  jenis_layanan: '',
   total_harga: 0,
   diskon: 0,
   jumlah: 0
@@ -192,7 +170,7 @@ const getKiloan = async () => {
 
     kiloans.value = res.data.data.map((kiloan) => ({
       id: kiloan.id,
-      label: kiloan.paket + ' (' + formatCurrency(kiloan.harga) + ')',
+      label: kiloan.paket + ' (' + formatCurrency(kiloan.harga) + ')' + ' (' + kiloan.description + ')',
       value: kiloan.paket,
       harga: kiloan.harga
     }))
@@ -210,44 +188,12 @@ const kiloanFilter = (val, update, abort) => {
   })
 }
 
-// Get Jenis Layanan
-const jenislayananStore = useJenisLayananStore()
-const jenislayanans = ref([])
-const jenislayananOptions = ref([])
-const getJenislayanan = async () => {
-  try {
-    const res = await jenislayananStore.all()
-
-    jenislayanans.value = res.data.data.map((jenislayannan) => ({
-      id: jenislayannan.id,
-      label: jenislayannan.jenis_cuci + ' (' + formatCurrency(jenislayannan.harga) + ')',
-      value: jenislayannan.jenis_cuci,
-      harga: jenislayannan.harga
-    }))
-    jenislayananOptions.value = [...jenislayanans.value]
-  } catch (error) {
-    console.error('Error fetching data:', error)
-  }
-}
-const jenislayananFilter = (val, update, abort) => {
-  update(() => {
-    const needle = val.toLowerCase()
-    jenislayananOptions.value = jenislayanans.value.filter((option) => {
-      return option.value.toLowerCase().indexOf(needle) > -1
-    })
-  })
-}
-
 // Total Harga
 const calculateTotalHarga = () => {
   let total = 0
   const foundKiloan = kiloans.value.find((kiloan) => kiloan.value === data.value.kiloan)
-  const foundJenislayanan = jenislayanans.value.find((jenislayanan) => jenislayanan.value === data.value.jenis_layanan)
   if (foundKiloan) {
     total = data.value.berat * foundKiloan.harga
-  }
-  if (foundJenislayanan) {
-    total = total + foundJenislayanan.harga
   }
 
   data.value.total_harga = total
@@ -265,7 +211,6 @@ const calculateJumlah = () => {
 }
 onMounted(() => {
   getKiloan()
-  getJenislayanan()
 })
 watchEffect(() => {
   calculateTotalHarga()
@@ -276,13 +221,12 @@ watchEffect(() => {
 const nama_pelangganRules = [(v) => !!v || 'Nama Pelanggan harus diisi']
 const kiloanRules = [(v) => !!v || 'Paket Kiloan harus diisi']
 const beratRules = [(v) => !!v || 'Berat harus diisi', (v) => /^[0-9]+$/.test(v) || 'Berat harus berupa angka']
-const jenislayananRules = [(v) => !!v || 'Jenis Layanan harus diisi']
 const diskonRules = [(v) => /^[0-9]+$/.test(v) || 'Diskon harus berupa angka']
 
 // Disabled Button
 const loading = ref(false)
 const disabledButton = computed(() => {
-  return loading.value || !data.value.nama_pelanggan || !data.value.kiloan || !data.value.berat || !data.value.jenis_layanan || !data.value.total_harga || !data.value.jumlah
+  return loading.value || !data.value.nama_pelanggan || !data.value.kiloan || !data.value.berat || !data.value.total_harga || !data.value.jumlah
 })
 
 // Add Data
@@ -291,7 +235,6 @@ const addNota = async () => {
 
   try {
     data.value.kiloan_id = kiloans.value.find((dept) => dept.value === data.value.kiloan).id
-    data.value.jenis_layanan_id = jenislayanans.value.find((dept) => dept.value === data.value.jenis_layanan).id
 
     await notaStore.createKiloan(data.value)
 

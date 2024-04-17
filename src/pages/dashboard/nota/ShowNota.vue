@@ -30,6 +30,8 @@
           Berat
           <p>{{ nota.berat }} kg</p>
         </div>
+      </div>
+      <div v-if="nota.jenis === 'Barang Satuan'">
         <div class="item">
           Jenis Layanan
           <p>{{ jenis_layanan.jenis_cuci }}</p>
@@ -38,8 +40,6 @@
           Harga Layanan
           <p>{{ formatCurrency(jenis_layanan.harga) }}</p>
         </div>
-      </div>
-      <div v-if="nota.jenis === 'Barang Satuan'">
         <div class="item">
           Barang :
           <p class="text-white">.</p>
@@ -66,7 +66,7 @@
     </div>
   </div>
 
-  <div class="flex flex-center">
+  <div class="flex flex-center q-pb-xl">
     <q-btn color="red" label="Print Nota" @click="printNota" />
   </div>
 </template>

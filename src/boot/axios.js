@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
-const url = 'http://localhost:8000'
+const url = 'https://be.camelia.laundry.winecoders.com'
 const server = axios.create({ baseURL: url })
 
 axios.defaults.withCredentials = true

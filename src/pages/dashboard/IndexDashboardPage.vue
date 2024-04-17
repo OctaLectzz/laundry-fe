@@ -5,7 +5,7 @@
       <q-card-section class="q-pa-none">
         <div class="row q-col-gutter-sm">
           <div v-if="loading">
-            <q-skeleton width="1000px" height="75px" />
+            <q-skeleton width="1500px" height="75px" />
           </div>
           <div v-else v-for="(item, index) in items" :key="index" class="col-md-3 col-sm-12 col-xs-12">
             <q-item :style="`background-color: ${item.color1}`" class="q-pa-none">
@@ -33,7 +33,7 @@
         </q-item>
       </q-card-section>
 
-      <q-card-section v-if="pieLoading" class="row">
+      <q-card-section v-if="chartLoading" class="row">
         <div class="col-12">
           <q-skeleton width="100%" height="300px" />
         </div>
@@ -105,19 +105,6 @@ const getChart = async () => {
   }
 }
 
-// Chart
-const pie = ref({})
-const pieLoading = ref(true)
-const getPie = async () => {
-  try {
-    const res = await notaStore.pie()
-    pie.value = res.data.data
-    pieLoading.value = false
-  } catch (error) {
-    console.error('Error fetching data:', error)
-  }
-}
-
 // User
 const userStore = useUserStore()
 const users = ref([])
@@ -149,7 +136,6 @@ const getBarang = async () => {
   try {
     const res = await barangStore.all()
     barangs.value = res.data.data
-    console.log(barangs.value)
   } catch (error) {
     console.error('Error fetching data:', error)
   }
@@ -158,13 +144,9 @@ const getBarang = async () => {
 onMounted(() => {
   getNota()
   getChart()
-  getPie()
   getUser()
   getKiloan()
   getBarang()
-})
-const total = computed(() => {
-  return notas.value.reduce((acc, nota) => acc + nota.jumlah, 0)
 })
 
 // Card
@@ -172,7 +154,7 @@ const items = ref([
   {
     title: 'Total Pendapatan',
     icon: 'fas fa-dollar-sign',
-    value: Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total.value),
+    value: Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(chart.value.total),
     color1: '#546bfa',
     color2: '#3e51b5'
   },
@@ -199,7 +181,7 @@ const items = ref([
   }
 ])
 watchEffect(() => {
-  items.value[0].value = Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total.value)
+  items.value[0].value = Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(chart.value.total)
   items.value[1].value = notas.value.length
   items.value[2].value = users.value.length
   items.value[3].value = kiloans.value.length

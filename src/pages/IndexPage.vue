@@ -72,7 +72,7 @@
         <div class="row">
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -82,7 +82,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -92,7 +92,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -102,7 +102,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -112,7 +112,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -122,7 +122,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -132,7 +132,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -142,7 +142,7 @@
           </div>
           <div class="col-6">
             <div class="card m-2 my-4">
-              <img src="src/assets/projects.avif" class="card-img-top" alt="src/assets/projects.avif" />
+              <img src="projects.avif" class="card-img-top" alt="projects.avif" />
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

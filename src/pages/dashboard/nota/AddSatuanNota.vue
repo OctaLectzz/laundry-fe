@@ -217,7 +217,7 @@ const getJenisLayanan = async () => {
 
     jenislayanans.value = res.data.data.map((jenislayanan) => ({
       id: jenislayanan.id,
-      label: jenislayanan.jenis_cuci,
+      label: jenislayanan.jenis_cuci + ' (' + formatCurrency(jenislayanan.harga) + ')',
       value: jenislayanan.jenis_cuci,
       harga: jenislayanan.harga
     }))
@@ -362,6 +362,11 @@ const calculateTotal = () => {
       total += total_harga
     }
   })
+  if (data.value.jenis_layanan) {
+    const jenislayananHarga = jenislayanans.value.find((dept) => dept.value === data.value.jenis_layanan).harga
+    total = total + parseFloat(jenislayananHarga)
+  }
+
   data.value.total_harga = total
 }
 
@@ -371,12 +376,8 @@ const calculateJumlah = () => {
   const money = data.value.total_harga
   const diskon = data.value.diskon / 100
   const amount = money * diskon
-  if (data.value.jenis_layanan) {
-    const jenislayananHarga = jenislayanans.value.find((dept) => dept.label === data.value.jenis_layanan).harga
-    jumlah = money + jenislayananHarga - amount
-  } else {
-    jumlah = money - amount
-  }
+  jumlah = money - amount
+
   data.value.jumlah = jumlah
 }
 watchEffect(() => {
@@ -390,7 +391,7 @@ const addNota = async () => {
   loading.value = true
 
   try {
-    data.value.jenis_layanan_id = jenislayanans.value.find((dept) => dept.label === data.value.jenis_layanan).id
+    data.value.jenis_layanan_id = jenislayanans.value.find((dept) => dept.value === data.value.jenis_layanan).id
 
     const res = await notaStore.createSatuan(data.value)
 
@@ -415,5 +416,13 @@ const addNota = async () => {
   }
 
   loading.value = false
+}
+
+const formatCurrency = (amount) => {
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  })
+  return formatter.format(amount)
 }
 </script>
