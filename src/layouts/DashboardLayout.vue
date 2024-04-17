@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-white text-black">
       <q-toolbar>
-        <q-btn flat dense round @click="toggleLeftDrawer" icon="menu" aria-label="Menu" />
+        <q-btn flat dense round @click="toggleDrawer" icon="menu" aria-label="Menu" />
         <q-toolbar-title>Dashboard Admin</q-toolbar-title>
         <q-space />
         <div class="q-gutter-sm row items-center no-wrap">
@@ -151,7 +151,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -163,9 +163,32 @@ const role = localStorage.getItem('role')
 
 const leftDrawerOpen = ref(false)
 const miniState = ref(false)
-const toggleLeftDrawer = () => {
-  miniState.value = !miniState.value
+const desktop = ref(false)
+const detectDesktop = () => {
+  desktop.value = window.innerWidth > 1023
 }
+const toggleLeftDrawer = computed(() => {
+  if (desktop.value) {
+    return miniState.value
+  } else {
+    return leftDrawerOpen.value
+  }
+})
+
+const toggleDrawer = () => {
+  if (desktop.value) {
+    miniState.value = !miniState.value
+  } else {
+    leftDrawerOpen.value = !leftDrawerOpen.value
+  }
+}
+onMounted(() => {
+  detectDesktop()
+  window.addEventListener('resize', detectDesktop)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', detectDesktop)
+})
 
 const profile = ref([])
 const loading = ref(true)

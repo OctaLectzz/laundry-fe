@@ -1,9 +1,25 @@
 <template>
   <q-page class="q-pa-sm">
     <!-- Card -->
-    <card-social icon_position="right" />
+    <q-card class="bg-transparent no-shadow no-border" bordered>
+      <q-card-section class="q-pa-none">
+        <div class="row q-col-gutter-sm">
+          <div v-if="loading">
+            <q-skeleton width="1000px" height="75px" />
+          </div>
+          <div v-else v-for="(item, index) in items" :key="index" class="col-md-3 col-sm-12 col-xs-12">
+            <q-item :style="`background-color: ${item.color1}`" class="q-pa-none">
+              <q-item-section class="q-pa-md q-ml-none text-white">
+                <q-item-label class="text-white text-h6 text-weight-bolder">{{ item.value }}</q-item-label>
+                <q-item-label>{{ item.title }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
 
-    <!-- Product Sales Stats -->
+    <!-- Statistik Penjualan Produk -->
     <q-card class="q-mt-sm no-shadow" bordered>
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -12,84 +28,25 @@
           </q-item-section>
 
           <q-item-section>
-            <div class="text-h6">Product Sales Stats</div>
+            <div class="text-h6">Statistik Penjualan Produk</div>
           </q-item-section>
         </q-item>
       </q-card-section>
-      <q-card-section class="row">
-        <div class="col-lg-7 col-sm-12 col-xs-12 col-md-7">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
-              <q-item>
-                <q-item-section top avatar>
-                  <q-avatar color="blue" text-color="white" icon="bluetooth" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-h6 text-blue text-bold">4321</q-item-label>
-                  <q-item-label caption>Fashions</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
-              <q-item>
-                <q-item-section top avatar>
-                  <q-avatar color="grey-8" text-color="white" icon="bluetooth" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-h6 text-grey-8 text-bold">9876</q-item-label>
-                  <q-item-label caption>Electronics</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
-              <q-item>
-                <q-item-section top avatar>
-                  <q-avatar color="green-6" text-color="white" icon="bluetooth" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-h6 text-green-6 text-bold">345</q-item-label>
-                  <q-item-label caption>Toys</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
-              <q-item>
-                <q-item-section top avatar>
-                  <q-avatar color="orange-8" text-color="white" icon="bluetooth" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-h6 text-orange-8 text-bold">1021</q-item-label>
-                  <q-item-label caption>Vouchers</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-          </div>
 
-          <!-- Grafik -->
-          <div>
-            <ECharts :option="sales_options" class="q-mt-md" :resizable="true" autoresize style="height: 250px" />
-          </div>
+      <q-card-section v-if="pieLoading" class="row">
+        <div class="col-12">
+          <q-skeleton width="100%" height="300px" />
         </div>
-
-        <!-- Circle Grafic -->
-        <div class="col-lg-5 col-sm-12 col-xs-12 col-md-5">
-          <q-item>
-            <q-item-section avatar class="">
-              <q-icon color="blue" name="card_giftcard" class="q-pl-md" size="24px" />
-            </q-item-section>
-
-            <q-item-section>
-              <div class="text-h6">TODAY SALES</div>
-            </q-item-section>
-          </q-item>
-          <div>
-            <ECharts :option="pie_options" class="q-mt-md" :resizable="true" autoresize style="height: 250px" />
-          </div>
+      </q-card-section>
+      <q-card-section v-else class="row">
+        <div class="col-12">
+          <!-- Grafik -->
+          <ECharts :option="sales_options" class="q-mt-md" :resizable="true" autoresize style="height: 250px" />
         </div>
       </q-card-section>
     </q-card>
 
-    <!-- Latest Sales -->
+    <!-- Penjualan Terbaru -->
     <q-card class="q-mt-sm no-shadow" bordered>
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -99,406 +56,161 @@
 
           <q-item-section>
             <q-item-label>
-              <div class="text-h6">Latest Sales</div>
+              <div class="text-h6">Penjualan Terbaru</div>
             </q-item-label>
-            <q-item-label caption class="text-black">Monitoring Your products. Tracking sales, and shipping status here.</q-item-label>
           </q-item-section>
         </q-item>
       </q-card-section>
       <q-card-section class="q-pa-none q-ma-none">
-        <q-table class="no-shadow no-border" :rows="sales_data" :columns="sales_column" hide-bottom>
-          <template v-slot:body-cell-Products="props">
-            <q-td :props="props">
-              <q-item>
-                <q-item-section>
-                  <q-avatar square>
-                    <img :src="props.row.prod_img" />
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ props.row.code }}</q-item-label>
-                  <q-item-label>{{ props.row.product_name }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-td>
-          </template>
-          <template v-slot:body-cell-Name="props">
-            <q-td :props="props">
-              <q-item>
-                <q-item-section avatar>
-                  <q-avatar>
-                    <img :src="props.row.avatar" />
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ props.row.name }}</q-item-label>
-                  <q-item-label caption class="">
-                    Purchased date:
-                    <br />
-                    {{ props.row.date }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-td>
-          </template>
-          <template v-slot:body-cell-Status="props">
-            <q-td :props="props" class="text-left">
-              <q-chip class="text-white text-capitalize" :label="props.row.status" :color="getChipColor(props.row.status)"></q-chip>
-            </q-td>
-          </template>
-          <template v-slot:body-cell-Stock="props">
-            <q-td :props="props">
-              <q-item>
-                <q-item-section>
-                  <q-item-label>
-                    <span class="text-blue">
-                      <q-icon name="bug_report" color="blue" size="20px" v-if="props.row.type == 'error'"></q-icon>
-                      <q-icon name="settings" color="blue" size="20px" v-if="props.row.type == 'info'"></q-icon>
-                      <q-icon name="flag" color="blue" size="20px" v-if="props.row.type == 'success'"></q-icon>
-                      <q-icon name="fireplace" color="blue" size="20px" v-if="props.row.type == 'warning'"></q-icon>
-                      {{ props.row.stock }}
-                    </span>
-                    <q-chip class="float-right text-white text-capitalize" :label="props.row.type" color="positive" v-if="props.row.type == 'success'"></q-chip>
-                    <q-chip class="float-right text-white text-capitalize" :label="props.row.type" color="info" v-if="props.row.type == 'info'"></q-chip>
-                    <q-chip class="float-right text-white text-capitalize" :label="props.row.type" color="warning" v-if="props.row.type == 'warning'"></q-chip>
-                    <q-chip class="float-right text-white text-capitalize" :label="props.row.type" color="negative" v-if="props.row.type == 'error'"></q-chip>
-                  </q-item-label>
-                  <q-item-label caption class="">
-                    <q-linear-progress dark :color="getColor(props.row.Progress)" :value="props.row.Progress / 100" />
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-td>
-          </template>
-        </q-table>
+        <IndexNota />
       </q-card-section>
     </q-card>
-
-    <!-- Info -->
-    <div class="row q-col-gutter-sm q-py-sm">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <q-card class="no-shadow" bordered>
-          <q-tabs v-model="tab" dense class="text-grey" active-color="primary" indicator-color="primary" align="justify">
-            <q-tab name="contact" :class="tab == 'contact' ? 'text-blue' : ''" icon="contacts" label="Contact" />
-            <q-tab name="message" :class="tab == 'message' ? 'text-blue' : ''" icon="comment" label="Message">
-              <q-badge color="red" floating>{{ messages.length }}</q-badge>
-            </q-tab>
-            <q-tab name="notification" :class="tab == 'notification' ? 'text-blue' : ''" icon="notifications" label="Notification">
-              <q-badge color="red" floating>4</q-badge>
-            </q-tab>
-          </q-tabs>
-
-          <q-separator />
-
-          <q-tab-panels v-model="tab" animated>
-            <q-tab-panel name="contact" class="q-pa-sm">
-              <q-list class="rounded-borders" separator>
-                <q-item v-for="(contact, index) in contacts" :key="index">
-                  <q-item-section avatar>
-                    <q-avatar>
-                      <img :src="contact.avatar" />
-                    </q-avatar>
-                  </q-item-section>
-
-                  <q-item-section>
-                    <q-item-label lines="1">{{ contact.name }}</q-item-label>
-                    <q-item-label caption lines="2">
-                      <span class="text-weight-bold">{{ contact.position }}</span>
-                    </q-item-label>
-                  </q-item-section>
-
-                  <q-item-section side>
-                    <div class="text-grey-8 q-gutter-xs">
-                      <q-btn class="gt-xs" size="md" flat color="blue" dense round icon="comment" />
-                      <q-btn class="gt-xs" size="md" flat color="red" dense round icon="email" />
-                      <q-btn size="md" flat dense round color="green" icon="phone" />
-                    </div>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-tab-panel>
-
-            <q-tab-panel name="message" class="q-pa-sm">
-              <q-item v-for="msg in messages" :key="msg.id" clickable v-ripple>
-                <q-item-section avatar>
-                  <q-avatar>
-                    <img :src="msg.avatar" />
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ msg.name }}</q-item-label>
-                  <q-item-label caption lines="1">{{ msg.msg }}</q-item-label>
-                </q-item-section>
-
-                <q-item-section side>
-                  {{ msg.time }}
-                </q-item-section>
-              </q-item>
-            </q-tab-panel>
-
-            <q-tab-panel name="notification" class="q-pa-sm">
-              <q-list>
-                <q-item clickable v-ripple>
-                  <q-item-section avatar>
-                    <q-avatar color="teal" text-color="white" icon="info" />
-                  </q-item-section>
-
-                  <q-item-section>Avatar-type icon</q-item-section>
-                </q-item>
-                <q-item clickable v-ripple>
-                  <q-item-section avatar>
-                    <q-avatar color="teal" text-color="white" icon="report" />
-                  </q-item-section>
-
-                  <q-item-section>Avatar-type icon</q-item-section>
-                </q-item>
-                <q-item clickable v-ripple>
-                  <q-item-section avatar>
-                    <q-avatar color="teal" text-color="white" icon="remove" />
-                  </q-item-section>
-
-                  <q-item-section>Avatar-type icon</q-item-section>
-                </q-item>
-
-                <q-item clickable v-ripple>
-                  <q-item-section avatar>
-                    <q-avatar color="teal" text-color="white" icon="remove_circle_outline" />
-                  </q-item-section>
-
-                  <q-item-section>Avatar-type icon</q-item-section>
-                </q-item>
-              </q-list>
-            </q-tab-panel>
-          </q-tab-panels>
-        </q-card>
-      </div>
-
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <q-carousel animated v-model="slide" infinite height="360px" arrows transition-prev="slide-right" transition-next="slide-left">
-          <q-carousel-slide :name="1" class="q-pa-none">
-            <q-scroll-area class="fit">
-              <q-card class="my-card">
-                <q-img src="/src/assets/dashboard/coding.jpeg" />
-
-                <q-card-section>
-                  <div class="text-h6">Work with something that you like, like…</div>
-                  <div class="text-subtitle2">by John Doe</div>
-                </q-card-section>
-
-                <q-card-actions align="left">
-                  <q-btn label="Share" dense color="primary" text-color="blue" outline />
-                  <q-btn label="Learn More" dense color="primary" text-color="blue" outline />
-                </q-card-actions>
-              </q-card>
-            </q-scroll-area>
-          </q-carousel-slide>
-          <q-carousel-slide :name="2" class="q-pa-none">
-            <q-scroll-area class="fit">
-              <q-card class="my-card">
-                <img src="/src/assets/dashboard/lookgood.jpeg" />
-
-                <q-card-section>
-                  <div class="text-h6">Keep your schedule in the right time</div>
-                  <div class="text-subtitle2">Aenean facilisis vitae purus facilisis semper.</div>
-                </q-card-section>
-
-                <q-card-actions align="left">
-                  <q-btn label="Share" dense color="primary" text-color="blue" outline />
-                  <q-btn label="Learn More" dense color="primary" text-color="blue" outline />
-                </q-card-actions>
-              </q-card>
-            </q-scroll-area>
-          </q-carousel-slide>
-          <q-carousel-slide :name="3" class="q-pa-none">
-            <q-scroll-area class="fit">
-              <q-card class="my-card">
-                <img src="/src/assets/trawel.jpeg" />
-
-                <q-card-section>
-                  <div class="text-h6">Travel everytime that you have a chance</div>
-                  <div class="text-subtitle2">Curabitur egestas consequat lorem, vel fermentum augue porta id.</div>
-                </q-card-section>
-
-                <q-card-actions align="left">
-                  <q-btn label="Share" dense color="primary" text-color="blue" outline />
-                  <q-btn label="Learn More" dense color="primary" text-color="blue" outline />
-                </q-card-actions>
-              </q-card>
-            </q-scroll-area>
-          </q-carousel-slide>
-        </q-carousel>
-      </div>
-    </div>
   </q-page>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed, watchEffect } from 'vue'
 import * as echarts from 'echarts'
 import ECharts from 'vue-echarts'
-import CardSocial from '/src/components/CardSocial.vue'
+import { useNotaStore } from 'src/stores/nota-store'
+import { useUserStore } from 'src/stores/user-store'
+import { useKiloanStore } from 'src/stores/kiloan-store'
+import { useBarangStore } from 'src/stores/barang-store'
+import IndexNota from '/src/pages/dashboard/nota/IndexNota.vue'
 
-const messages = [
-  {
-    id: 5,
-    name: 'Pratik Patel',
-    msg: " -- I'll be in your neighborhood doing errands this\n" + '            weekend. Do you want to grab brunch?',
-    avatar: 'https://avatars2.githubusercontent.com/u/34883558?s=400&v=4',
-    time: '10:42 PM'
-  },
-  {
-    id: 6,
-    name: 'Winfield Stapforth',
-    msg: " -- I'll be in your neighborhood doing errands this\n" + '            weekend. Do you want to grab brunch?',
-    avatar: 'https://cdn.quasar.dev/img/avatar6.jpg',
-    time: '11:17 AM'
-  },
-  {
-    id: 1,
-    name: 'Boy',
-    msg: " -- I'll be in your neighborhood doing errands this\n" + '            weekend. Do you want to grab brunch?',
-    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-    time: '5:17 AM'
-  },
-  {
-    id: 2,
-    name: 'Jeff Galbraith',
-    msg: " -- I'll be in your neighborhood doing errands this\n" + '            weekend. Do you want to grab brunch?',
-    avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg',
-    time: '5:17 AM'
-  },
-  {
-    id: 3,
-    name: 'Razvan Stoenescu',
-    msg: " -- I'll be in your neighborhood doing errands this\n" + '            weekend. Do you want to grab brunch?',
-    avatar: 'https://cdn.quasar.dev/team/razvan_stoenescu.jpeg',
-    time: '5:17 AM'
+// Nota
+const notaStore = useNotaStore()
+const notas = ref([])
+const loading = ref(true)
+const getNota = async () => {
+  try {
+    const res = await notaStore.all()
+    notas.value = res.data.data
+    loading.value = false
+  } catch (error) {
+    console.error('Error fetching data:', error)
   }
-]
-const contacts = [
-  {
-    name: 'Pratik Patel',
-    position: 'Developer',
-    avatar: 'https://avatars2.githubusercontent.com/u/34883558?s=400&v=4'
-  },
-  {
-    name: 'Razvan Stoenescu',
-    position: 'Developer',
-    avatar: 'https://cdn.quasar.dev/team/razvan_stoenescu.jpeg'
-  },
-  {
-    name: 'Jeff Galbraith',
-    position: 'Developer',
-    avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg'
-  },
-  {
-    name: 'Brunhilde Panswick',
-    position: 'Administrator',
-    avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
-  },
-  {
-    name: 'Winfield Stapforth',
-    position: 'Administrator',
-    avatar: 'https://cdn.quasar.dev/img/avatar6.jpg'
-  }
-]
-const sales_data = [
-  {
-    name: 'Pratik Patel',
-    Progress: 70,
-    status: 'Canceled',
-    stock: '14 / 30',
-    date: '23 Oct 2018',
-    avatar: 'https://avatars3.githubusercontent.com/u/34883558?s=400&u=09455019882ac53dc69b23df570629fd84d37dd1&v=4',
-    product_name: 'Woman Bag',
-    total: '$300,00',
-    code: 'QWE123'
-  },
-  {
-    name: 'Mayank Patel',
-    Progress: 60,
-    status: 'Sent',
-    date: '11 Nov 2018',
-    stock: '25 / 70',
-    avatar: 'https://avatars2.githubusercontent.com/u/27857088?s=400&u=a898efbc753d93cf4c2070a7cf3b05544b50deea&v=4',
-    product_name: 'Laptop',
-    total: '$230,00',
-    code: 'ABC890'
-  },
-  {
-    name: 'Mayur Patel',
-    Progress: 30,
-    status: 'Pending',
-    stock: '35 / 50',
-    avatar: 'https://avatars0.githubusercontent.com/u/55240045?s=400&u=cf9bffc2bd2d8e42ca6e5abf40ddd6c1a03ce2860&v=4',
-    product_name: 'Pinapple Jam',
-    total: '$34,00',
-    date: '19 Sept 2020',
-    code: 'GHI556'
-  },
-  {
-    name: 'Jeff Galbraith',
-    Progress: 100,
-    status: 'Paid',
-    stock: '18 / 33',
-    avatar: 'https://avatars1.githubusercontent.com/u/10262924?s=400&u=9f601b344d597ed76581e3a6a10f3c149cb5f6dc&v=4',
-    product_name: 'Action Figure',
-    total: '$208,00',
-    date: '19 Sept 2020',
-    code: 'JKL345'
-  }
-]
-const sales_column = [
-  {
-    name: 'Products',
-    label: 'Products',
-    field: 'Products',
-    sortable: true,
-    align: 'left'
-  },
-  {
-    name: 'Name',
-    label: 'Buyer',
-    field: 'name',
-    sortable: true,
-    align: 'left'
-  },
-  {
-    name: 'Total',
-    label: 'Total',
-    field: 'total',
-    sortable: true,
-    align: 'right',
-    classes: 'text-bold'
-  },
-  {
-    name: 'Status',
-    label: 'Status',
-    field: 'status',
-    sortable: true,
-    align: 'left',
-    classes: 'text-bold'
-  },
-  {
-    name: 'Stock',
-    label: 'Stock',
-    field: 'task',
-    sortable: true,
-    align: 'left'
-  }
-]
+}
 
-const slide = ref(1)
-const tab = ref('contact')
-const sales_options = {
+// Chart
+const chart = ref({})
+const chartLoading = ref(true)
+const getChart = async () => {
+  try {
+    const res = await notaStore.chart()
+    chart.value = res.data.data
+    chartLoading.value = false
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+// Chart
+const pie = ref({})
+const pieLoading = ref(true)
+const getPie = async () => {
+  try {
+    const res = await notaStore.pie()
+    pie.value = res.data.data
+    pieLoading.value = false
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+// User
+const userStore = useUserStore()
+const users = ref([])
+const getUser = async () => {
+  try {
+    const res = await userStore.all()
+    users.value = res.data.data
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+// Kiloan
+const kiloanStore = useKiloanStore()
+const kiloans = ref([])
+const getKiloan = async () => {
+  try {
+    const res = await kiloanStore.all()
+    kiloans.value = res.data.data
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+// Barang
+const barangStore = useBarangStore()
+const barangs = ref([])
+const getBarang = async () => {
+  try {
+    const res = await barangStore.all()
+    barangs.value = res.data.data
+    console.log(barangs.value)
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+onMounted(() => {
+  getNota()
+  getChart()
+  getPie()
+  getUser()
+  getKiloan()
+  getBarang()
+})
+const total = computed(() => {
+  return notas.value.reduce((acc, nota) => acc + nota.jumlah, 0)
+})
+
+// Card
+const items = ref([
+  {
+    title: 'Total Pendapatan',
+    icon: 'fas fa-dollar-sign',
+    value: Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total.value),
+    color1: '#546bfa',
+    color2: '#3e51b5'
+  },
+  {
+    title: 'Total Penjualan',
+    icon: 'fas fa-chart-bar',
+    value: notas.value.length,
+    color1: '#3a9688',
+    color2: '#3e51b5'
+  },
+  {
+    title: 'Total Users',
+    icon: 'person',
+    value: users.value.length,
+    color1: '#7cb342',
+    color2: '#3e51b5'
+  },
+  {
+    title: 'Total Paket',
+    icon: kiloans.value.length,
+    value: '82',
+    color1: '#f88c2b',
+    color2: '#3e51b5'
+  }
+])
+watchEffect(() => {
+  items.value[0].value = Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total.value)
+  items.value[1].value = notas.value.length
+  items.value[2].value = users.value.length
+  items.value[3].value = kiloans.value.length
+})
+
+// Grafik
+let sales_options = {
   tooltip: {
     trigger: 'axis',
     axisPointer: {
-      // Coordinate axis indicator, coordinate axis trigger is valid
-      type: 'shadow' // The default is a straight line, optional:'line' |'shadow'
+      type: 'shadow'
     }
   },
   grid: {
@@ -524,119 +236,42 @@ const sales_options = {
   ],
   series: [
     {
-      name: 'Fashions',
+      name: 'Total Pendapatan',
       type: 'bar',
-      data: [40, 45, 27, 50, 32, 50, 70, 30, 30, 40, 67, 29],
-      color: '#546bfa'
-    },
-    {
-      name: 'Electronics',
-      type: 'bar',
-      data: [124, 100, 20, 120, 117, 70, 110, 90, 50, 90, 20, 50],
-      color: '#3a9688'
-    },
-    {
-      name: 'Toys',
-      type: 'bar',
-      data: [17, 2, 0, 29, 20, 10, 23, 0, 8, 20, 11, 30],
-      color: '#02a9f4'
-    },
-    {
-      name: 'Vouchers',
-      type: 'bar',
-      data: [20, 100, 80, 14, 90, 86, 100, 70, 120, 50, 30, 60],
-      color: '#f88c2b'
-    }
-  ]
-}
-const pie_options = {
-  tooltip: {
-    trigger: 'item',
-    formatter: '{a} <br/>{b}: {c} ({d}%)'
-  },
-  legend: {
-    bottom: 10,
-    left: 'center',
-    data: ['Fashions', 'Electronics', 'Toys', 'Vouchers']
-  },
-  series: [
-    {
-      name: 'Sales',
-      type: 'pie',
-      radius: ['50%', '70%'],
-      avoidLabelOverlap: false,
-      label: {
-        show: false,
-        position: 'center'
-      },
-      emphasis: {
-        label: {
-          show: false,
-          fontSize: '30',
-          fontWeight: 'bold'
-        }
-      },
-      labelLine: {
-        show: false
-      },
       data: [
-        {
-          value: 335,
-          name: 'Fashions',
-          itemStyle: {
-            color: '#546bfa'
-          }
-        },
-        {
-          value: 310,
-          name: 'Electronics',
-          itemStyle: {
-            color: '#3a9688'
-          }
-        },
-        {
-          value: 234,
-          name: 'Toys',
-          itemStyle: {
-            color: '#02a9f4'
-          }
-        },
-        {
-          value: 135,
-          name: 'Vouchers',
-          itemStyle: {
-            color: '#f88c2b'
-          }
-        }
-      ]
+        chart.value.Jan,
+        chart.value.Feb,
+        chart.value.Mar,
+        chart.value.Apr,
+        chart.value.May,
+        chart.value.Jun,
+        chart.value.Jul,
+        chart.value.Aug,
+        chart.value.Sep,
+        chart.value.Oct,
+        chart.value.Nov,
+        chart.value.Dec
+      ],
+      color: '#546bfa'
     }
   ]
 }
-const sales_chart = null
-const pie_chart = null
-
-function getColor(val) {
-  if (val > 70 && val <= 100) {
-    return 'green'
-  } else if (val > 50 && val <= 70) {
-    return 'blue'
-  }
-  return 'red'
-}
-
-function getChipColor(status) {
-  if (status == 'Canceled') {
-    return 'negative'
-  } else if (status == 'Sent') {
-    return 'positive'
-  } else if (status == 'Pending') {
-    return 'warning'
-  } else if (status == 'Paid') {
-    return 'info'
-  } else {
-    return 'dark'
-  }
-}
+watchEffect(() => {
+  sales_options.series[0].data = [
+    chart.value.Jan,
+    chart.value.Feb,
+    chart.value.Mar,
+    chart.value.Apr,
+    chart.value.May,
+    chart.value.Jun,
+    chart.value.Jul,
+    chart.value.Aug,
+    chart.value.Sep,
+    chart.value.Oct,
+    chart.value.Nov,
+    chart.value.Dec
+  ]
+})
 </script>
 
 <style scoped></style>
