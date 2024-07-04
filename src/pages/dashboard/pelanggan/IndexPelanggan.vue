@@ -1,31 +1,36 @@
 <template>
   <q-page class="q-pa-sm">
     <q-table
-      flat
-      bordered
-      class="statement-table"
+      class="dashboard-table"
+      :table-header-class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-grey-2'"
       title="Pelanggan"
-      :rows="currencyData"
-      :hide-header="grid"
-      :columns="currencyColumns"
       row-key="__index"
+      :rows="currencyData"
+      :columns="currencyColumns"
+      :hide-header="grid"
       :grid="grid"
       :filter="filter"
-      virtual-scroll
       v-model:pagination="pagination"
       :rows-per-page-options="[10, 20, 30]"
+      :separator="tableseparator"
+      virtual-scroll
+      flat
+      bordered
     >
       <!-- Top -->
       <template v-slot:top-right="props">
         <!-- Fullscreen -->
-        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="setFs(props)">
+        <q-btn :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" class="q-ma-xs" @click="setFs(props)" flat round dense>
           <q-tooltip>{{ props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen' }}</q-tooltip>
         </q-btn>
 
         <!-- Grid Switch -->
-        <q-btn flat round dense :icon="grid ? 'list' : 'grid_on'" @click="grid = !grid" class="q-mr-sm">
+        <q-btn :icon="grid ? 'list' : 'grid_on'" @click="grid = !grid" class="q-ma-xs" flat round dense>
           <q-tooltip>{{ grid ? 'List' : 'Grid' }}</q-tooltip>
         </q-btn>
+
+        <!-- Table Types -->
+        <q-select v-model="tableseparator" :options="['horizontal', 'vertical', 'cell', 'none']" label="Tipe Tabel" class="q-ma-xs" style="width: 120px" outlined dense />
 
         <!-- Search -->
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
@@ -35,44 +40,31 @@
         </q-input>
       </template>
 
-      <!-- Add Pelanggan -->
-      <template v-slot:top-left>
-        <div class="text-h5 q-pr-lg">Pelanggan</div>
-        <q-btn dense @click="addPelangganDialog = true" color="black" icon="add" class="shadow-3"><q-tooltip>Add Pelanggan</q-tooltip></q-btn>
-        <q-dialog v-model="addPelangganDialog" full-width full-height persistent transition-show="slide-up" transition-hide="slide-down">
-          <CreatePelanggan @added="pelangganAdded" />
-        </q-dialog>
-      </template>
-
       <!-- Table -->
       <!-- ID -->
       <template #body-cell-id="props">
         <q-td :props="props">
-          <div text-color="white" dense square>
-            {{ props.rowIndex + 1 }}
-          </div>
+          {{ props.rowIndex + 1 }}
         </q-td>
       </template>
 
       <!-- User -->
       <template #body-cell-user="props">
         <q-td :props="props">
-          <div text-color="white" dense square>
-            <div class="text-bold">{{ props.row.name }}</div>
-            <div>{{ props.row.email }}</div>
-          </div>
+          <div class="text-bold">{{ props.row.name }}</div>
+          <div>{{ props.row.email }}</div>
         </q-td>
       </template>
 
       <!-- Action -->
       <template #body-cell-action="props">
         <q-td :props="props">
-          <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editPelanggan(props.row)">
-            <q-dialog v-model="editPelangganDialog" full-width full-height persistent transition-show="slide-up" transition-hide="slide-down">
+          <q-btn dense round color="blue" field="edit" icon="edit" class="q-ma-xs" @click="editPelanggan(props.row)">
+            <q-dialog v-model="editPelangganDialog" transition-show="slide-up" transition-hide="slide-down" full-width full-height persistent>
               <EditPelanggan @edited="pelangganEdited(props.row)" :pelanggan="pelangganData" />
             </q-dialog>
           </q-btn>
-          <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deletePelangganDialog(props.row)" />
+          <q-btn dense round color="red" field="delete" icon="delete" class="q-ma-xs" @click="deletePelangganDialog(props.row)" />
         </q-td>
       </template>
 
@@ -88,24 +80,24 @@
 
                 <q-item-section side>
                   <!-- ID -->
-                  <div v-if="col.name === 'id'" text-color="white" dense square>
+                  <div v-if="col.name === 'id'">
                     {{ props.rowIndex + 1 }}
                   </div>
 
                   <!-- User -->
-                  <div v-else-if="col.name === 'user'" text-color="white" dense square>
+                  <div v-else-if="col.name === 'user'">
                     <div class="text-bold">{{ props.row.name }}</div>
                     <div>{{ props.row.email }}</div>
                   </div>
 
                   <!-- Action -->
                   <div v-else-if="col.name === 'action'">
-                    <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editPelanggan(props.row)">
-                      <q-dialog v-model="editPelangganDialog" full-width full-height persistent transition-show="slide-up" transition-hide="slide-down">
+                    <q-btn dense round color="blue" field="edit" icon="edit" class="q-ma-xs" @click="editPelanggan(props.row)">
+                      <q-dialog v-model="editPelangganDialog" transition-show="slide-up" transition-hide="slide-down" full-width full-height persistent>
                         <EditPelanggan @edited="pelangganEdited(props.row)" :pelanggan="pelangganData" />
                       </q-dialog>
                     </q-btn>
-                    <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deletePelangganDialog(props.row)" />
+                    <q-btn dense round color="red" field="delete" icon="delete" class="q-ma-xs" @click="deletePelangganDialog(props.row)" />
                   </div>
 
                   <!-- DLL -->
@@ -124,15 +116,14 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { url } from 'src/boot/axios'
 import { usePelangganStore } from 'src/stores/pelanggan-store'
-import CreatePelanggan from './CreatePelanggan.vue'
 import EditPelanggan from './EditPelanggan.vue'
 
 const $q = useQuasar()
 const router = useRouter()
 const pelangganStore = usePelangganStore()
 
+// Get Pelanggan
 const pelanggans = ref([])
 const getPelanggan = async () => {
   try {
@@ -149,13 +140,6 @@ const getPelanggan = async () => {
 onMounted(() => {
   getPelanggan()
 })
-
-// Create Pelanggan
-const addPelangganDialog = ref(false)
-const pelangganAdded = () => {
-  addPelangganDialog.value = false
-  getPelanggan()
-}
 
 // Edit Pelanggan
 const editPelangganDialog = ref(false)
@@ -214,36 +198,43 @@ const currencyColumns = [
   {
     name: 'id',
     field: 'id',
-    label: 'ID'
+    label: 'No',
+    align: 'center',
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'user',
     field: 'name',
     label: 'User',
     align: 'left',
-    sortable: true
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'jenis_kelamin',
     field: 'jenis_kelamin',
     label: 'Jenis Kelamin',
     align: 'left',
-    sortable: true
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'alamat',
     field: 'alamat',
     label: 'Alamat',
     align: 'left',
-    sortable: true
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'action',
     field: 'action',
     label: 'Action',
-    align: 'center'
+    align: 'center',
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   }
 ]
+const tableseparator = ref('horizontal')
 const filter = ref('')
 const grid = ref(false)
 const pagination = ref({})

@@ -98,7 +98,7 @@ const disabledButton = computed(() => {
   return loading.value || !data.value.name || !data.value.email || !data.value.password || !data.value.passwordConfirmation || !data.value.jenis_kelamin
 })
 
-// Add Data
+// Create Data
 const addKaryawan = async () => {
   loading.value = true
 

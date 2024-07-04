@@ -67,7 +67,7 @@ const disabledButton = computed(() => {
   return loading.value || !data.value.paket || !data.value.harga
 })
 
-// Add Data
+// Create Data
 const addKiloan = async () => {
   loading.value = true
 

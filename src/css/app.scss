@@ -1,1 +1,47 @@
-// app global css in SCSS form
+// Font
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+body,
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
+// Scrollbar
+*::-webkit-scrollbar-track {
+  background: #b6b6b63e;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--q-secondary);
+}
+*::-webkit-scrollbar-button,
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--q-primary);
+}
+
+// Dashboard
+.dashboard-image {
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.dashboard-image:hover {
+  transform: scale(1.1);
+}
+.dashboard-table {
+  max-height: 90vh;
+}
+thead tr th {
+  position: sticky;
+  z-index: 1;
+}
+thead tr:first-child th {
+  top: 0;
+}
+.q-table--loading thead tr:last-child th {
+  top: 48px;
+}
+tbody {
+  scroll-margin-top: 48px;
+}

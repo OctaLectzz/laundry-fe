@@ -60,7 +60,7 @@ const disabledButton = computed(() => {
   return loading.value || !data.value.name || !data.value.harga
 })
 
-// Add Data
+// Create Data
 const addBarang = async () => {
   loading.value = true
 

@@ -1,31 +1,36 @@
 <template>
   <q-page class="q-pa-sm">
     <q-table
-      flat
-      bordered
-      class="statement-table"
+      class="dashboard-table"
+      :table-header-class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-grey-2'"
       title="Jenis Layanan"
-      :rows="currencyData"
-      :hide-header="grid"
-      :columns="currencyColumns"
       row-key="__index"
+      :rows="currencyData"
+      :columns="currencyColumns"
+      :hide-header="grid"
       :grid="grid"
       :filter="filter"
-      virtual-scroll
       v-model:pagination="pagination"
       :rows-per-page-options="[10, 20, 30]"
+      :separator="tableseparator"
+      virtual-scroll
+      flat
+      bordered
     >
       <!-- Top -->
       <template v-slot:top-right="props">
         <!-- Fullscreen -->
-        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="setFs(props)">
+        <q-btn :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" class="q-ma-xs" @click="setFs(props)" flat round dense>
           <q-tooltip>{{ props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen' }}</q-tooltip>
         </q-btn>
 
         <!-- Grid Switch -->
-        <q-btn flat round dense :icon="grid ? 'list' : 'grid_on'" @click="grid = !grid" class="q-mr-sm">
+        <q-btn :icon="grid ? 'list' : 'grid_on'" @click="grid = !grid" class="q-ma-xs" flat round dense>
           <q-tooltip>{{ grid ? 'List' : 'Grid' }}</q-tooltip>
         </q-btn>
+
+        <!-- Table Types -->
+        <q-select v-model="tableseparator" :options="['horizontal', 'vertical', 'cell', 'none']" label="Tipe Tabel" class="q-ma-xs" style="width: 120px" outlined dense />
 
         <!-- Search -->
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
@@ -35,39 +40,42 @@
         </q-input>
       </template>
 
-      <!-- Add Jenis Layanan -->
+      <!-- Create Jenis Layanan -->
       <template v-slot:top-left>
         <div class="text-h5 q-pr-lg">Jenis Layanan</div>
-        <q-btn dense @click="addJenisLayananDialog = true" color="black" icon="add" class="shadow-3"><q-tooltip>Add JenisLayanan</q-tooltip></q-btn>
-        <q-dialog v-model="addJenisLayananDialog" persistent>
-          <CreateJenisLayanan @added="jenisLayananAdded" />
-        </q-dialog>
+
+        <q-btn dense @click="addJenisLayananDialog = true" color="black" icon="add" class="shadow-3">
+          <q-tooltip>Create JenisLayanan</q-tooltip>
+          <q-dialog v-model="addJenisLayananDialog" persistent>
+            <CreateJenisLayanan @added="jenisLayananCreateed" />
+          </q-dialog>
+        </q-btn>
       </template>
 
       <!-- Table -->
       <!-- ID -->
       <template #body-cell-id="props">
         <q-td :props="props">
-          <div text-color="white" dense square>{{ props.rowIndex + 1 }}</div>
+          {{ props.rowIndex + 1 }}
         </q-td>
       </template>
 
       <!-- Harga -->
       <template #body-cell-harga="props">
         <q-td :props="props">
-          <div text-color="white" dense square>{{ formatCurrency(props.row.harga) }}</div>
+          <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.harga) }}</div>
         </q-td>
       </template>
 
       <!-- Action -->
       <template #body-cell-action="props">
         <q-td :props="props">
-          <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editJenisLayanan(props.row)">
+          <q-btn color="blue" field="edit" icon="edit" class="q-ma-xs" @click="editJenisLayanan(props.row)" dense round>
             <q-dialog v-model="editJenisLayananDialog" persistent>
               <EditJenisLayanan @edited="jenisLayananEdited(props.row)" :jenisLayanan="jenisLayananData" />
             </q-dialog>
           </q-btn>
-          <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteJenisLayananDialog(props.row)" />
+          <q-btn color="red" field="delete" icon="delete" class="q-ma-xs" @click="deleteJenisLayananDialog(props.row)" dense round />
         </q-td>
       </template>
 
@@ -83,21 +91,23 @@
 
                 <q-item-section side>
                   <!-- ID -->
-                  <div v-if="col.name === 'id'" text-color="white" dense square>
+                  <div v-if="col.name === 'id'">
                     {{ props.rowIndex + 1 }}
                   </div>
 
                   <!-- Harga -->
-                  <div v-else-if="col.name === 'harga'" text-color="white" dense square>{{ formatCurrency(props.row.harga) }}</div>
+                  <div v-else-if="col.name === 'harga'">
+                    <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.harga) }}</div>
+                  </div>
 
                   <!-- Action -->
                   <div v-else-if="col.name === 'action'">
-                    <q-btn dense round color="blue" field="edit" icon="edit" class="q-mx-xs" @click="editJenisLayanan(props.row)">
+                    <q-btn color="blue" field="edit" icon="edit" class="q-ma-xs" @click="editJenisLayanan(props.row)" dense round>
                       <q-dialog v-model="editJenisLayananDialog" persistent>
                         <EditJenisLayanan @edited="jenisLayananEdited(props.row)" :jenisLayanan="jenisLayananData" />
                       </q-dialog>
                     </q-btn>
-                    <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteJenisLayananDialog(props.row)" />
+                    <q-btn color="red" field="delete" icon="delete" class="q-ma-xs" @click="deleteJenisLayananDialog(props.row)" dense round />
                   </div>
 
                   <!-- DLL -->
@@ -116,7 +126,6 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { url } from 'src/boot/axios'
 import { useJenisLayananStore } from 'src/stores/jenislayanan-store'
 import CreateJenisLayanan from './CreateJenisLayanan.vue'
 import EditJenisLayanan from './EditJenisLayanan.vue'
@@ -125,6 +134,7 @@ const $q = useQuasar()
 const router = useRouter()
 const jenisLayananStore = useJenisLayananStore()
 
+// Get JenisLayanan
 const jenisLayanans = ref([])
 const getJenisLayanan = async () => {
   try {
@@ -144,7 +154,7 @@ onMounted(() => {
 
 // Create JenisLayanan
 const addJenisLayananDialog = ref(false)
-const jenisLayananAdded = () => {
+const jenisLayananCreateed = () => {
   addJenisLayananDialog.value = false
   getJenisLayanan()
 }
@@ -206,36 +216,43 @@ const currencyColumns = [
   {
     name: 'id',
     field: 'id',
-    label: 'ID'
+    label: 'No',
+    align: 'center',
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'jenis_cuci',
     field: 'jenis_cuci',
     label: 'Jenis Cuci',
     align: 'left',
-    sortable: true
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'waktu',
     field: 'waktu',
     label: 'Waktu',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'harga',
     field: 'harga',
     label: 'Tambahan Harga',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'action',
     field: 'action',
     label: 'Action',
-    align: 'center'
+    align: 'center',
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   }
 ]
+const tableseparator = ref('cell')
 const filter = ref('')
 const grid = ref(false)
 const pagination = ref({})

@@ -107,14 +107,14 @@ const disabledButton = computed(() => {
   return loading.value || !data.value.name || !data.value.email || !data.value.password || !data.value.passwordConfirmation || !data.value.role || !data.value.jenis_kelamin
 })
 
-// Add Data
+// Create Data
 const addUser = async () => {
   loading.value = true
 
   try {
-    if (data.value.role === "Karyawan") {
+    if (data.value.role === 'Karyawan') {
       await karyawanStore.create(data.value)
-    } else if (data.value.role === "Pelanggan") {
+    } else if (data.value.role === 'Pelanggan') {
       await pelangganStore.create(data.value)
     } else {
       await userStore.create(data.value)

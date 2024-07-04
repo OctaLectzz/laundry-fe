@@ -2,65 +2,85 @@
   <div v-if="loading" class="flex flex-center q-mt-xl q-pb-xl">
     <q-skeleton width="300px" height="450px" />
   </div>
+
   <div v-else class="note">
     <div class="header">
       <div class="text-h5 text-bold">Nota Pembelian</div>
-      <div class="text-subtitle2">{{ nota.created_at }}</div>
-      <div class="text-subtitle2">{{ nota.no_nota }}</div>
+      <div class="text-subtitle2 text-grey-8">{{ nota.created_at }}</div>
+      <div class="text-subtitle2 text-grey-7">{{ nota.no_nota }}</div>
     </div>
-    <div class="body">
-      <div class="item">
-        Nama Pelanggan
-        <p>{{ nota.nama_pelanggan }}</p>
-      </div>
-      <div class="item">
-        Jenis Pemesanan
-        <p>{{ nota.jenis }}</p>
-      </div>
-      <div v-if="nota.jenis === 'Paket Kiloan'">
-        <div class="item">
-          Paket
-          <p>{{ kiloan.paket }}</p>
-        </div>
-        <div class="item">
-          Harga Paket
-          <p>{{ formatCurrency(kiloan.harga) }}</p>
-        </div>
-        <div class="item">
-          Berat
-          <p>{{ nota.berat }} kg</p>
-        </div>
-      </div>
-      <div v-if="nota.jenis === 'Barang Satuan'">
-        <div class="item">
-          Jenis Layanan
-          <p>{{ jenis_layanan.jenis_cuci }}</p>
-        </div>
-        <div class="item">
-          Harga Layanan
-          <p>{{ formatCurrency(jenis_layanan.harga) }}</p>
-        </div>
-        <div class="item">
-          Barang :
-          <p class="text-white">.</p>
-        </div>
-        <div v-for="barang in nota.notabarangs" :key="barang.id" class="item">
-          {{ barang.barang }} x {{ barang.jumlah_barang }}
-          <p>{{ formatCurrency(barang.harga * barang.jumlah_barang) }}</p>
-        </div>
-      </div>
+
+    <div class="body text-caption">
+      <table class="full-width">
+        <tr height="30px">
+          <td>Nama Pelanggan</td>
+          <td>:</td>
+          <td class="text-right">{{ nota.nama_pelanggan }}</td>
+        </tr>
+
+        <tr height="30px">
+          <td>Jenis Pemesanan</td>
+          <td>:</td>
+          <td class="text-right">{{ nota.jenis }}</td>
+        </tr>
+
+        <tbody v-if="nota.jenis === 'Paket Kiloan'">
+          <tr height="30px">
+            <td>Paket</td>
+            <td>:</td>
+            <td class="text-right">{{ kiloan.paket }}</td>
+          </tr>
+
+          <tr height="30px">
+            <td>Harga Paket</td>
+            <td>:</td>
+            <td class="text-right">{{ formatCurrency(kiloan.harga) }}</td>
+          </tr>
+
+          <tr height="30px">
+            <td>Berat</td>
+            <td>:</td>
+            <td class="text-right">{{ nota.berat }} kg</td>
+          </tr>
+        </tbody>
+
+        <tbody v-if="nota.jenis === 'Barang Satuan'">
+          <tr height="30px">
+            <td>Jenis Layanan</td>
+            <td>:</td>
+            <td class="text-right">{{ jenis_layanan.jenis_cuci }}</td>
+          </tr>
+
+          <tr height="30px">
+            <td>Harga Layanan</td>
+            <td>:</td>
+            <td class="text-right">{{ formatCurrency(jenis_layanan.harga) }}</td>
+          </tr>
+
+          <tr height="30px">
+            <td>Barang :</td>
+          </tr>
+
+          <tr height="30px" v-for="barang in nota.notabarangs" :key="barang.id">
+            <td>{{ barang.barang }}</td>
+            <td>*{{ barang.jumlah_barang }}</td>
+            <td class="text-right">{{ formatCurrency(barang.harga * barang.jumlah_barang) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
     <div class="footer">
       <div class="row q-gutter-md justify-end">
         <div class="col-4">
-          <div>Total Harga :</div>
-          <div>Diskon :</div>
-          <div>Jumlah :</div>
+          <div class="q-my-sm">Total Harga :</div>
+          <div class="q-my-sm">Diskon :</div>
+          <div class="q-my-sm">Jumlah :</div>
         </div>
         <div class="col-4">
-          <div>{{ formatCurrency(nota.total_harga) }}</div>
-          <div>{{ nota.diskon }}%</div>
-          <div>{{ formatCurrency(nota.jumlah) }}</div>
+          <div class="text-primary text-bold q-my-sm">{{ formatCurrency(nota.total_harga) }}</div>
+          <div class="text-red text-bold q-my-sm">{{ nota.diskon }}%</div>
+          <div class="text-primary text-bold q-my-sm">{{ formatCurrency(nota.jumlah) }}</div>
         </div>
       </div>
     </div>
@@ -97,7 +117,7 @@ const getNota = async (id) => {
   loading.value = false
 }
 watchEffect(() => {
-  if(route.params.id) {
+  if (route.params.id) {
     getNota(route.params.id)
   }
 })

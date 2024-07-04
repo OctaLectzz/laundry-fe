@@ -303,7 +303,7 @@ const columns = [
 const originalRows = [{ ...defaultRow }]
 const rows = ref([...originalRows])
 
-// Add row
+// Create row
 const addRow = () => {
   const newRow = {}
   columns.forEach((col) => {
@@ -386,7 +386,7 @@ watchEffect(() => {
   calculateJumlah()
 })
 
-// Add Data
+// Create Data
 const addNota = async () => {
   loading.value = true
 

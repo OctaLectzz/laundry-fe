@@ -229,7 +229,7 @@ const disabledButton = computed(() => {
   return loading.value || !data.value.nama_pelanggan || !data.value.kiloan || !data.value.berat || !data.value.total_harga || !data.value.jumlah
 })
 
-// Add Data
+// Create Data
 const addNota = async () => {
   loading.value = true
 

@@ -68,7 +68,7 @@ const disabledButton = computed(() => {
   return loading.value || !data.value.jenis_cuci || !data.value.waktu || !data.value.harga
 })
 
-// Add Data
+// Create Data
 const addJenisLayanan = async () => {
   loading.value = true
 

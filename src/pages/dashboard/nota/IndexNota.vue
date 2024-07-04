@@ -1,30 +1,36 @@
 <template>
   <q-page class="q-pa-sm">
     <q-table
-      flat
-      bordered
+      class="dashboard-table"
+      :table-header-class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-grey-2'"
       title="Nota"
-      :rows="currencyData"
-      :hide-header="grid"
-      :columns="currencyColumns"
       row-key="__index"
+      :rows="currencyData"
+      :columns="currencyColumns"
+      :hide-header="grid"
       :grid="grid"
       :filter="filter"
-      virtual-scroll
       v-model:pagination="pagination"
       :rows-per-page-options="[10, 20, 30]"
+      :separator="tableseparator"
+      virtual-scroll
+      flat
+      bordered
     >
       <!-- Top -->
       <template v-slot:top-right="props">
         <!-- Fullscreen -->
-        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="setFs(props)">
+        <q-btn :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" class="q-ma-xs" @click="setFs(props)" flat round dense>
           <q-tooltip>{{ props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen' }}</q-tooltip>
         </q-btn>
 
         <!-- Grid Switch -->
-        <q-btn flat round dense :icon="grid ? 'list' : 'grid_on'" @click="grid = !grid" class="q-mr-sm">
+        <q-btn :icon="grid ? 'list' : 'grid_on'" @click="grid = !grid" class="q-ma-xs" flat round dense>
           <q-tooltip>{{ grid ? 'List' : 'Grid' }}</q-tooltip>
         </q-btn>
+
+        <!-- Table Types -->
+        <q-select v-model="tableseparator" :options="['horizontal', 'vertical', 'cell', 'none']" label="Tipe Tabel" class="q-ma-xs" style="width: 120px" outlined dense />
 
         <!-- Search -->
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
@@ -34,29 +40,31 @@
         </q-input>
       </template>
 
-      <!-- Add Nota -->
+      <!-- Create Nota -->
       <template v-slot:top-left>
         <div class="text-h5 q-pr-lg">Nota</div>
+
         <!-- Barang Satuan -->
-        <q-btn @click="addSatuanNotaDialog = true" color="black" label="Barang Satuan" class="shadow-3 q-mx-sm"></q-btn>
-        <q-dialog v-model="addSatuanNotaDialog" full-width full-height persistent transition-show="slide-up" transition-hide="slide-down">
-          <AddSatuanNota @added="notaAdded" />
-        </q-dialog>
+        <q-btn @click="addSatuanNotaDialog = true" color="black" label="Barang Satuan" class="shadow-3 q-ma-sm">
+          <q-dialog v-model="addSatuanNotaDialog" transition-show="slide-up" transition-hide="slide-down" full-width full-height persistent>
+            <CreateSatuanNota @added="notaCreateed" />
+          </q-dialog>
+        </q-btn>
 
         <!-- Paket Kiloan -->
-        <q-btn @click="addKiloanNotaDialog = true" color="black" label="Paket Kiloan" class="shadow-3 q-mx-sm"></q-btn>
-        <q-dialog v-model="addKiloanNotaDialog" full-width full-height persistent transition-show="slide-up" transition-hide="slide-down">
-          <AddKiloanNota @added="notaAdded" />
-        </q-dialog>
+        <q-btn @click="addKiloanNotaDialog = true" color="black" label="Paket Kiloan" class="shadow-3 q-ma-sm">
+          <q-dialog v-model="addKiloanNotaDialog" transition-show="slide-up" transition-hide="slide-down" full-width full-height persistent>
+            <CreateKiloanNota @added="notaCreateed" />
+          </q-dialog>
+        </q-btn>
       </template>
 
       <!-- Table -->
       <!-- ID -->
       <template #body-cell-id="props">
         <q-td :props="props">
-          <div text-color="white" dense square>
-            {{ props.rowIndex + 1 }}
-          </div>
+          {{ props.rowIndex + 1 }}
+          =
         </q-td>
       </template>
 
@@ -81,10 +89,11 @@
       <!-- jenis Pemesanan -->
       <template #body-cell-jenis="props">
         <q-td :props="props">
-          <div v-if="props.row.jenis === 'Paket Kiloan'" class="bg-light-green-2 q-py-xs">
+          <div v-if="props.row.jenis === 'Paket Kiloan'" class="bg-light-green-2 q-pa-xs q-px-sm">
             <div class="text-light-green-9 text-center">{{ props.row.jenis }}</div>
           </div>
-          <div v-if="props.row.jenis === 'Barang Satuan'" class="bg-teal-2 q-py-xs">
+
+          <div v-if="props.row.jenis === 'Barang Satuan'" class="bg-teal-2 q-py-xs q-px-sm">
             <div class="text-teal-9 text-center">{{ props.row.jenis }}</div>
           </div>
         </q-td>
@@ -93,33 +102,29 @@
       <!-- Jumlah -->
       <template #body-cell-jumlah="props">
         <q-td :props="props">
-          <div text-color="white" dense square>
-            {{ formatCurrency(props.row.jumlah) }}
-          </div>
+          <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.jumlah) }}</div>
         </q-td>
       </template>
 
       <!-- Diskon -->
       <template #body-cell-diskon="props">
         <q-td :props="props">
-          <div text-color="white" dense square>{{ props.row.diskon }}%</div>
+          <div class="text-subtitle2 text-red text-bold">{{ props.row.diskon }}%</div>
         </q-td>
       </template>
 
       <!-- Total Harga -->
       <template #body-cell-total_harga="props">
         <q-td :props="props">
-          <div text-color="white" dense square>
-            {{ formatCurrency(props.row.total_harga) }}
-          </div>
+          <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.total_harga) }}</div>
         </q-td>
       </template>
 
       <!-- Action -->
       <template #body-cell-action="props">
         <q-td :props="props">
-          <q-btn dense round color="blue" field="show" icon="visibility" class="q-mx-xs" @click="showNota(props.row)" />
-          <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteNotaDialog(props.row)" />
+          <q-btn dense round color="blue" field="show" icon="visibility" class="q-ma-xs" @click="showNota(props.row)" />
+          <q-btn dense round color="red" field="delete" icon="delete" class="q-ma-xs" @click="deleteNotaDialog(props.row)" />
         </q-td>
       </template>
 
@@ -135,36 +140,49 @@
 
                 <q-item-section side>
                   <!-- ID -->
-                  <div v-if="col.name === 'id'" text-color="white" dense square>
+                  <div v-if="col.name === 'id'">
                     {{ props.rowIndex + 1 }}
                   </div>
 
                   <!-- Nomor Nota -->
-                  <div v-else-if="col.name === 'no_nota'" text-color="white" dense square>
+                  <div v-else-if="col.name === 'no_nota'">
                     <div class="bg-blue-2 q-py-xs q-px-md">
                       <div class="text-blue-9 text-center">{{ props.row.no_nota }}</div>
                     </div>
                   </div>
 
-                  <!-- Nomor Nota -->
-                  <div v-else-if="col.name === 'waktu'" text-color="white" dense square>
+                  <!-- Waktu Pemesanan -->
+                  <div v-else-if="col.name === 'waktu'">
                     <div class="bg-yellow-3 q-py-xs q-px-md">
                       <div class="text-yellow-10 text-center">{{ props.row.waktu }}</div>
                     </div>
                   </div>
 
+                  <!-- jenis Pemesanan -->
+                  <div v-else-if="col.name === 'jenis'">
+                    <div v-if="props.row.jenis === 'Paket Kiloan'" class="bg-light-green-2 q-pa-xs q-px-sm">
+                      <div class="text-light-green-9 text-center">{{ props.row.jenis }}</div>
+                    </div>
+
+                    <div v-if="props.row.jenis === 'Barang Satuan'" class="bg-teal-2 q-py-xs q-px-sm">
+                      <div class="text-teal-9 text-center">{{ props.row.jenis }}</div>
+                    </div>
+                  </div>
+
                   <!-- Total | Jumlah -->
-                  <div v-else-if="col.name === 'total' || col.name === 'jumlah'">
-                    {{ formatCurrency(props.row[col.name]) }}
+                  <div v-else-if="col.name === 'total_harga' || col.name === 'jumlah'">
+                    <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row[col.name]) }}</div>
                   </div>
 
                   <!-- Diskon -->
-                  <div v-else-if="col.name === 'discount'">{{ props.row.discount }}%</div>
+                  <div v-else-if="col.name === 'diskon'">
+                    <div class="text-subtitle2 text-red text-bold">{{ props.row.diskon }}%</div>
+                  </div>
 
                   <!-- Action -->
                   <div v-else-if="col.name === 'action'">
-                    <q-btn dense round color="blue" field="show" icon="visibility" class="q-mx-xs" @click="showNota(props.row)" />
-                    <q-btn dense round color="red" field="delete" icon="delete" class="q-mx-xs" @click="deleteNotaDialog(props.row)" />
+                    <q-btn dense round color="blue" field="show" icon="visibility" class="q-ma-xs" @click="showNota(props.row)" />
+                    <q-btn dense round color="red" field="delete" icon="delete" class="q-ma-xs" @click="deleteNotaDialog(props.row)" />
                   </div>
 
                   <!-- DLL -->
@@ -183,15 +201,15 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { url } from 'src/boot/axios'
 import { useNotaStore } from 'src/stores/nota-store'
-import AddKiloanNota from './AddKiloanNota.vue'
-import AddSatuanNota from './AddSatuanNota.vue'
+import CreateKiloanNota from './CreateKiloanNota.vue'
+import CreateSatuanNota from './CreateSatuanNota.vue'
 
 const $q = useQuasar()
 const router = useRouter()
 const notaStore = useNotaStore()
 
+// Get Nota
 const notas = ref([])
 const getNota = async () => {
   try {
@@ -212,7 +230,7 @@ onMounted(() => {
 // Create Nota
 const addKiloanNotaDialog = ref(false)
 const addSatuanNotaDialog = ref(false)
-const notaAdded = () => {
+const notaCreateed = () => {
   addKiloanNotaDialog.value = false
   addSatuanNotaDialog.value = false
   getNota()
@@ -267,57 +285,67 @@ const currencyColumns = [
   {
     name: 'id',
     field: 'id',
-    label: 'ID'
+    label: 'No',
+    align: 'center',
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'no_nota',
     field: 'no_nota',
     label: 'Nomor Nota',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'waktu',
     field: 'waktu',
     label: 'Waktu Pemesanan',
     align: 'left',
-    sortable: true
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'jenis',
     field: 'jenis',
     label: 'Jenis Pemesanan',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'jumlah',
     field: 'jumlah',
     label: 'Jumlah Awal',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'diskon',
     field: 'diskon',
     label: 'Diskon',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'total_harga',
     field: 'total_harga',
     label: 'Total Harga',
-    align: 'left',
-    sortable: true
+    align: 'center',
+    sortable: true,
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   },
   {
     name: 'action',
     field: 'action',
     label: 'Action',
-    align: 'center'
+    align: 'center',
+    headerStyle: 'font-weight: bolder; font-size: 13px;'
   }
 ]
+const tableseparator = ref('cell')
 const filter = ref('')
 const grid = ref(false)
 const pagination = ref({})
@@ -325,7 +353,7 @@ const setFs = (props) => {
   props.toggleFullscreen()
 }
 
-// Format uang sesuai dengan mata uang Rupiah
+// Format Currency
 const formatCurrency = (amount) => {
   const formatter = new Intl.NumberFormat('id-ID', {
     style: 'currency',

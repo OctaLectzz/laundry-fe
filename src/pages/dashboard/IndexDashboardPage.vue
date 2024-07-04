@@ -3,11 +3,13 @@
     <!-- Card -->
     <q-card class="bg-transparent no-shadow no-border" bordered>
       <q-card-section class="q-pa-none">
-        <div class="row q-col-gutter-sm">
-          <div v-if="loading">
-            <q-skeleton width="1500px" height="75px" />
+        <div v-if="loading" class="row q-col-gutter-sm">
+          <div v-for="n in 4" :key="n" class="col-md-3 col-sm-12 col-xs-12">
+            <q-skeleton width="100%" height="75px" class="q-my-sm" />
           </div>
-          <div v-else v-for="(item, index) in items" :key="index" class="col-md-3 col-sm-12 col-xs-12">
+        </div>
+        <div v-else class="row q-col-gutter-sm">
+          <div v-for="(item, index) in items" :key="index" class="col-md-3 col-sm-12 col-xs-12">
             <q-item :style="`background-color: ${item.color1}`" class="q-pa-none">
               <q-item-section class="q-pa-md q-ml-none text-white">
                 <q-item-label class="text-white text-h6 text-weight-bolder">{{ item.value }}</q-item-label>
@@ -219,7 +221,7 @@ let sales_options = {
   series: [
     {
       name: 'Total Pendapatan',
-      type: 'bar',
+      type: 'line',
       data: [
         chart.value.Jan,
         chart.value.Feb,
