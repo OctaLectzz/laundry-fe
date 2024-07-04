@@ -57,7 +57,7 @@
 <script setup>
 import { ref, defineEmits, computed, defineProps } from 'vue'
 import { useQuasar } from 'quasar'
-import { usePelangganStore } from 'src/stores/pelanggan-store.js'
+import { usePelangganStore } from '/src/stores/pelanggan-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['edited'])

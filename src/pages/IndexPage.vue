@@ -250,8 +250,8 @@
 </template>
 
 <script setup>
-import 'src/css/styles.css'
-import 'src/css/bootstrap.css'
-import 'src/js/bootstrap.js'
-import Navbar from 'src/components/NavbarPage.vue'
+import '/src/css/styles.css'
+import '/src/css/bootstrap.css'
+import '/src/js/bootstrap.js'
+import Navbar from '/src/components/NavbarPage.vue'
 </script>

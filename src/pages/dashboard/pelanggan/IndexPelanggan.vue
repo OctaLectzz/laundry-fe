@@ -116,7 +116,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { usePelangganStore } from 'src/stores/pelanggan-store'
+import { usePelangganStore } from '/src/stores/pelanggan-store'
 import EditPelanggan from './EditPelanggan.vue'
 
 const $q = useQuasar()

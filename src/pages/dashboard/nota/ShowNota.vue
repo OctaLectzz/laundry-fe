@@ -34,7 +34,7 @@
           <tr height="30px">
             <td>Harga Paket</td>
             <td>:</td>
-            <td class="text-right">{{ formatCurrency(kiloan.harga) }}</td>
+            <td class="text-right">{{ rupiah(kiloan.harga) }}</td>
           </tr>
 
           <tr height="30px">
@@ -54,7 +54,7 @@
           <tr height="30px">
             <td>Harga Layanan</td>
             <td>:</td>
-            <td class="text-right">{{ formatCurrency(jenis_layanan.harga) }}</td>
+            <td class="text-right">{{ rupiah(jenis_layanan.harga) }}</td>
           </tr>
 
           <tr height="30px">
@@ -64,7 +64,7 @@
           <tr height="30px" v-for="barang in nota.notabarangs" :key="barang.id">
             <td>{{ barang.barang }}</td>
             <td>*{{ barang.jumlah_barang }}</td>
-            <td class="text-right">{{ formatCurrency(barang.harga * barang.jumlah_barang) }}</td>
+            <td class="text-right">{{ rupiah(barang.harga * barang.jumlah_barang) }}</td>
           </tr>
         </tbody>
       </table>
@@ -78,9 +78,9 @@
           <div class="q-my-sm">Jumlah :</div>
         </div>
         <div class="col-4">
-          <div class="text-primary text-bold q-my-sm">{{ formatCurrency(nota.total_harga) }}</div>
+          <div class="text-primary text-bold q-my-sm">{{ rupiah(nota.total_harga) }}</div>
           <div class="text-red text-bold q-my-sm">{{ nota.diskon }}%</div>
-          <div class="text-primary text-bold q-my-sm">{{ formatCurrency(nota.jumlah) }}</div>
+          <div class="text-primary text-bold q-my-sm">{{ rupiah(nota.jumlah) }}</div>
         </div>
       </div>
     </div>
@@ -94,7 +94,8 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useNotaStore } from 'src/stores/nota-store'
+import { rupiah } from '/src/boot/rupiah'
+import { useNotaStore } from '/src/stores/nota-store'
 
 const route = useRoute()
 const notaStore = useNotaStore()
@@ -121,15 +122,6 @@ watchEffect(() => {
     getNota(route.params.id)
   }
 })
-
-// Format Rupiah
-const formatCurrency = (amount) => {
-  const formatter = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR'
-  })
-  return formatter.format(amount)
-}
 
 // print Nota
 const printNota = () => {

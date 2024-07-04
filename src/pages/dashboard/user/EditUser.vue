@@ -57,7 +57,7 @@
 <script setup>
 import { ref, defineEmits, computed, defineProps } from 'vue'
 import { useQuasar } from 'quasar'
-import { useUserStore } from 'src/stores/user-store.js'
+import { useUserStore } from '/src/stores/user-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['edited'])

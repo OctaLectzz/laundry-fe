@@ -46,7 +46,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { useAuthStore } from 'src/stores/auth-store'
+import { useAuthStore } from '/src/stores/auth-store'
 
 const $q = useQuasar()
 const router = useRouter()

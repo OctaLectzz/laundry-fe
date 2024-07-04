@@ -128,7 +128,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { useUserStore } from 'src/stores/user-store'
+import { useUserStore } from '/src/stores/user-store'
 import CreateUser from './CreateUser.vue'
 import EditUser from './EditUser.vue'
 

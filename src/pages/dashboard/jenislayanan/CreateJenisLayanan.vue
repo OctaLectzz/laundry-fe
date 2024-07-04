@@ -46,7 +46,7 @@
 <script setup>
 import { ref, computed, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
-import { useJenisLayananStore } from 'src/stores/jenislayanan-store.js'
+import { useJenisLayananStore } from '/src/stores/jenislayanan-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])

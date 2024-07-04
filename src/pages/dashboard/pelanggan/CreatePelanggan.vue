@@ -71,7 +71,7 @@
 <script setup>
 import { ref, computed, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
-import { usePelangganStore } from 'src/stores/pelanggan-store.js'
+import { usePelangganStore } from '/src/stores/pelanggan-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])

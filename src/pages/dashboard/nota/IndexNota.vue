@@ -102,7 +102,7 @@
       <!-- Jumlah -->
       <template #body-cell-jumlah="props">
         <q-td :props="props">
-          <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.jumlah) }}</div>
+          <div class="text-subtitle2 text-primary text-bold">{{ rupiah(props.row.jumlah) }}</div>
         </q-td>
       </template>
 
@@ -116,7 +116,7 @@
       <!-- Total Harga -->
       <template #body-cell-total_harga="props">
         <q-td :props="props">
-          <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.total_harga) }}</div>
+          <div class="text-subtitle2 text-primary text-bold">{{ rupiah(props.row.total_harga) }}</div>
         </q-td>
       </template>
 
@@ -171,7 +171,7 @@
 
                   <!-- Total | Jumlah -->
                   <div v-else-if="col.name === 'total_harga' || col.name === 'jumlah'">
-                    <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row[col.name]) }}</div>
+                    <div class="text-subtitle2 text-primary text-bold">{{ rupiah(props.row[col.name]) }}</div>
                   </div>
 
                   <!-- Diskon -->
@@ -201,7 +201,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { useNotaStore } from 'src/stores/nota-store'
+import { rupiah } from '/src/boot/rupiah'
+import { useNotaStore } from '/src/stores/nota-store'
 import CreateKiloanNota from './CreateKiloanNota.vue'
 import CreateSatuanNota from './CreateSatuanNota.vue'
 
@@ -351,15 +352,6 @@ const grid = ref(false)
 const pagination = ref({})
 const setFs = (props) => {
   props.toggleFullscreen()
-}
-
-// Format Currency
-const formatCurrency = (amount) => {
-  const formatter = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR'
-  })
-  return formatter.format(amount)
 }
 </script>
 

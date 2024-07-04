@@ -132,9 +132,9 @@
 <script setup>
 import { ref, onMounted, computed, watchEffect, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
-import { useNotaStore } from 'src/stores/nota-store'
-import { useKiloanStore } from 'src/stores/kiloan-store'
-import { useJenisLayananStore } from 'src/stores/jenislayanan-store'
+import { rupiah } from '/src/boot/rupiah'
+import { useNotaStore } from '/src/stores/nota-store'
+import { useKiloanStore } from '/src/stores/kiloan-store'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])
@@ -170,7 +170,7 @@ const getKiloan = async () => {
 
     kiloans.value = res.data.data.map((kiloan) => ({
       id: kiloan.id,
-      label: kiloan.paket + ' (' + formatCurrency(kiloan.harga) + ')' + ' (' + kiloan.description + ')',
+      label: kiloan.paket + ' (' + rupiah(kiloan.harga) + ')' + ' (' + kiloan.description + ')',
       value: kiloan.paket,
       harga: kiloan.harga
     }))
@@ -254,13 +254,5 @@ const addNota = async () => {
   }
 
   loading.value = false
-}
-
-const formatCurrency = (amount) => {
-  const formatter = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR'
-  })
-  return formatter.format(amount)
 }
 </script>

@@ -280,6 +280,7 @@ const logout = async () => {
   background: linear-gradient(to left, var(--q-secondary), rgba(255, 255, 255, 0));
   border-right: solid 0.313rem var(--q-primary);
   box-shadow: none;
+  filter: brightness(80%);
 }
 .menu-active {
   background: linear-gradient(to left, var(--q-secondary), rgba(255, 255, 255, 0));

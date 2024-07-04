@@ -181,9 +181,10 @@
 <script setup>
 import { ref, onMounted, computed, watchEffect, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
-import { useNotaStore } from 'src/stores/nota-store'
-import { useJenisLayananStore } from 'src/stores/jenislayanan-store'
-import { useBarangStore } from 'src/stores/barang-store'
+import { rupiah } from '/src/boot/rupiah'
+import { useNotaStore } from '/src/stores/nota-store'
+import { useJenisLayananStore } from '/src/stores/jenislayanan-store'
+import { useBarangStore } from '/src/stores/barang-store'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])
@@ -217,7 +218,7 @@ const getJenisLayanan = async () => {
 
     jenislayanans.value = res.data.data.map((jenislayanan) => ({
       id: jenislayanan.id,
-      label: jenislayanan.jenis_cuci + ' (' + formatCurrency(jenislayanan.harga) + ')',
+      label: jenislayanan.jenis_cuci + ' (' + rupiah(jenislayanan.harga) + ')',
       value: jenislayanan.jenis_cuci,
       harga: jenislayanan.harga
     }))
@@ -416,13 +417,5 @@ const addNota = async () => {
   }
 
   loading.value = false
-}
-
-const formatCurrency = (amount) => {
-  const formatter = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR'
-  })
-  return formatter.format(amount)
 }
 </script>

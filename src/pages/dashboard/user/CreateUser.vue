@@ -75,9 +75,9 @@
 <script setup>
 import { ref, computed, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
-import { useUserStore } from 'src/stores/user-store.js'
-import { useKaryawanStore } from 'src/stores/karyawan-store.js'
-import { usePelangganStore } from 'src/stores/pelanggan-store.js'
+import { useUserStore } from '/src/stores/user-store.js'
+import { useKaryawanStore } from '/src/stores/karyawan-store.js'
+import { usePelangganStore } from '/src/stores/pelanggan-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])

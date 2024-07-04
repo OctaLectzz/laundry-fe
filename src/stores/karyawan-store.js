@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { server } from 'src/boot/axios'
+import { server } from '/src/boot/axios'
 
 const token = localStorage.getItem('token')
 const headers = {

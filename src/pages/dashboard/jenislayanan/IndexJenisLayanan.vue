@@ -63,7 +63,7 @@
       <!-- Harga -->
       <template #body-cell-harga="props">
         <q-td :props="props">
-          <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.harga) }}</div>
+          <div class="text-subtitle2 text-primary text-bold">{{ rupiah(props.row.harga) }}</div>
         </q-td>
       </template>
 
@@ -97,7 +97,7 @@
 
                   <!-- Harga -->
                   <div v-else-if="col.name === 'harga'">
-                    <div class="text-subtitle2 text-primary text-bold">{{ formatCurrency(props.row.harga) }}</div>
+                    <div class="text-subtitle2 text-primary text-bold">{{ rupiah(props.row.harga) }}</div>
                   </div>
 
                   <!-- Action -->
@@ -126,7 +126,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { useJenisLayananStore } from 'src/stores/jenislayanan-store'
+import { rupiah } from '/src/boot/rupiah'
+import { useJenisLayananStore } from '/src/stores/jenislayanan-store'
 import CreateJenisLayanan from './CreateJenisLayanan.vue'
 import EditJenisLayanan from './EditJenisLayanan.vue'
 
@@ -258,14 +259,5 @@ const grid = ref(false)
 const pagination = ref({})
 const setFs = (props) => {
   props.toggleFullscreen()
-}
-
-// Format Currency
-const formatCurrency = (amount) => {
-  const formatter = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR'
-  })
-  return formatter.format(amount)
 }
 </script>

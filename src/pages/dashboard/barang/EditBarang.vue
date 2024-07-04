@@ -40,7 +40,7 @@
 <script setup>
 import { ref, computed, defineEmits, defineProps } from 'vue'
 import { useQuasar } from 'quasar'
-import { useBarangStore } from 'src/stores/barang-store.js'
+import { useBarangStore } from '/src/stores/barang-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['edited'])

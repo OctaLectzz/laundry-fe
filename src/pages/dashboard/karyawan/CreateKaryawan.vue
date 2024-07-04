@@ -71,7 +71,7 @@
 <script setup>
 import { ref, computed, defineEmits } from 'vue'
 import { useQuasar } from 'quasar'
-import { useKaryawanStore } from 'src/stores/karyawan-store.js'
+import { useKaryawanStore } from '/src/stores/karyawan-store.js'
 
 const $q = useQuasar()
 const emits = defineEmits(['added'])

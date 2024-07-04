@@ -71,13 +71,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import * as echarts from 'echarts'
 import ECharts from 'vue-echarts'
-import { useNotaStore } from 'src/stores/nota-store'
-import { useUserStore } from 'src/stores/user-store'
-import { useKiloanStore } from 'src/stores/kiloan-store'
-import { useBarangStore } from 'src/stores/barang-store'
+import { rupiah } from '/src/boot/rupiah'
+import { useNotaStore } from '/src/stores/nota-store'
+import { useUserStore } from '/src/stores/user-store'
+import { useKiloanStore } from '/src/stores/kiloan-store'
+import { useBarangStore } from '/src/stores/barang-store'
 import IndexNota from '/src/pages/dashboard/nota/IndexNota.vue'
 
 // Nota
@@ -183,7 +184,7 @@ const items = ref([
   }
 ])
 watchEffect(() => {
-  items.value[0].value = Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(chart.value.total)
+  items.value[0].value = rupiah(chart.value.total)
   items.value[1].value = notas.value.length
   items.value[2].value = users.value.length
   items.value[3].value = kiloans.value.length

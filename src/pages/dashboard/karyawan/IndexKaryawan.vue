@@ -128,7 +128,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { useKaryawanStore } from 'src/stores/karyawan-store'
+import { useKaryawanStore } from '/src/stores/karyawan-store'
 import CreateKaryawan from './CreateKaryawan.vue'
 import EditKaryawan from './EditKaryawan.vue'
 

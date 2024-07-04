@@ -46,7 +46,7 @@
 <script setup>
 import { ref, computed, defineEmits, defineProps } from 'vue'
 import { useQuasar } from 'quasar'
-import { useKiloanStore } from 'src/stores/kiloan-store'
+import { useKiloanStore } from '/src/stores/kiloan-store'
 
 const $q = useQuasar()
 const emits = defineEmits(['edited'])
