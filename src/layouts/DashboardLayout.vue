@@ -72,7 +72,8 @@
         <!-- Brand -->
         <q-item class="row justify-center q-py-lg">
           <q-item-section avatar>
-            <div v-if="!miniState" class="text-h4 text-center text-bold">LAUNDRY</div>
+            <div v-if="!miniState" class="text-h4 text-center text-bold">L A U N D RY</div>
+            <img v-if="miniState" src="/logo.png" width="50" />
           </q-item-section>
         </q-item>
 
@@ -83,7 +84,7 @@
         <div class="menu-text-header q-mx-md q-mb-sm q-mt-md" style="font-size: 11px"><span v-if="!miniState">MAIN</span></div>
 
         <!-- Home -->
-        <q-item :to="{ name: 'dashboardhome' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item :to="{ name: 'dashboard.home' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -93,7 +94,7 @@
         </q-item>
 
         <!-- User -->
-        <q-item v-if="role == 'Admin'" :to="{ name: 'dashboarduser' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item v-if="role == 'Admin'" :to="{ name: 'dashboard.user' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="account_circle" />
           </q-item-section>
@@ -103,7 +104,7 @@
         </q-item>
 
         <!-- Karyawan -->
-        <q-item v-if="role == 'Admin'" :to="{ name: 'dashboardkaryawan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item v-if="role == 'Admin'" :to="{ name: 'dashboard.karyawan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="contact_mail" />
           </q-item-section>
@@ -117,7 +118,7 @@
         <div class="menu-text-header q-mx-md q-mb-sm q-mt-md" style="font-size: 11px"><span v-if="!miniState">MANAGEMENT</span></div>
 
         <!-- Barang Satuan -->
-        <q-item :to="{ name: 'dashboardbarang' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item :to="{ name: 'dashboard.barang' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="category" />
           </q-item-section>
@@ -127,7 +128,7 @@
         </q-item>
 
         <!-- Paket Kiloan -->
-        <q-item :to="{ name: 'dashboardkiloan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item :to="{ name: 'dashboard.kiloan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="inventory_2" />
           </q-item-section>
@@ -137,7 +138,7 @@
         </q-item>
 
         <!-- Jenis Layanan -->
-        <q-item :to="{ name: 'dashboardjenislayanan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item :to="{ name: 'dashboard.jenislayanan' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="format_list_bulleted" />
           </q-item-section>
@@ -151,7 +152,7 @@
         <div class="menu-text-header q-mx-md q-mb-sm q-mt-md" style="font-size: 11px"><span v-if="!miniState">PEMBAYARAN</span></div>
 
         <!-- Nota -->
-        <q-item :to="{ name: 'dashboardnota' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
+        <q-item :to="{ name: 'dashboard.nota' }" active-class="q-item-no-link-highlighting menu-active" class="menu-click menu-text q-py-md">
           <q-item-section avatar>
             <q-icon name="text_snippet" />
           </q-item-section>

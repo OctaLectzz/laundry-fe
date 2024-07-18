@@ -10,7 +10,7 @@
 
         <q-separator />
 
-        <q-card-section class="scroll">
+        <q-card-section class="scroll" style="height: 77vh">
           <div class="row justify-center">
             <!-- Name -->
             <div class="col-5 q-mr-md">

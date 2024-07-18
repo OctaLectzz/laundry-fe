@@ -29,6 +29,11 @@
           <q-tooltip>{{ grid ? 'List' : 'Grid' }}</q-tooltip>
         </q-btn>
 
+        <!-- Export -->
+        <q-btn icon="file_download" @click="exportToExcel" flat round dense>
+          <q-tooltip>Ekspor</q-tooltip>
+        </q-btn>
+
         <!-- Table Types -->
         <q-select v-model="tableseparator" :options="['horizontal', 'vertical', 'cell', 'none']" label="Tipe Tabel" class="q-ma-xs" style="width: 120px" outlined dense />
 
@@ -64,7 +69,6 @@
       <template #body-cell-id="props">
         <q-td :props="props">
           {{ props.rowIndex + 1 }}
-          =
         </q-td>
       </template>
 
@@ -201,6 +205,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import * as XLSX from 'xlsx'
 import { rupiah } from '/src/boot/rupiah'
 import { useNotaStore } from '/src/stores/nota-store'
 import CreateKiloanNota from './CreateKiloanNota.vue'
@@ -239,7 +244,7 @@ const notaCreateed = () => {
 
 // Show Nota
 const showNota = (data) => {
-  router.push({ name: 'dashboardshownota', params: { id: data.id } })
+  router.push({ name: 'dashboard.shownota', params: { id: data.id } })
 }
 
 // Delete Nota
@@ -352,6 +357,53 @@ const grid = ref(false)
 const pagination = ref({})
 const setFs = (props) => {
   props.toggleFullscreen()
+}
+
+// Export
+const exportToExcel = () => {
+  const data = notas.value.map((nota, index) => ({
+    No: index + 1,
+    'Nomor Nota': nota.no_nota,
+    'Waktu Pemesanan': nota.waktu,
+    'Jenis Pemesanan': nota.jenis,
+    'Jumlah Awal': nota.jumlah,
+    Diskon: nota.diskon + '%',
+    'Total Harga': nota.total_harga
+  }))
+
+  const ws = XLSX.utils.json_to_sheet(data)
+
+  // Set column widths slightly wider than max length
+  const maxLengths = data.reduce((acc, row) => {
+    Object.keys(row).forEach((key) => {
+      const value = row[key].toString()
+      if (!acc[key] || acc[key] < value.length) {
+        acc[key] = value.length
+      }
+    })
+    return acc
+  }, {})
+
+  ws['!cols'] = Object.keys(maxLengths).map((key) => ({ wch: maxLengths[key] + 2 }))
+
+  // Center the data and apply styles
+  Object.keys(ws).forEach((cell) => {
+    if (cell[0] !== '!') {
+      ws[cell].s = {
+        alignment: { horizontal: 'center' },
+        fill: {}
+      }
+      if (ws[cell].v && ws[cell].v.toString().includes('Nomor Nota')) {
+        ws[cell].s.fill = {
+          fgColor: { rgb: 'FFFF00' } // Yellow background for Nomor Nota column
+        }
+      }
+    }
+  })
+
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Nota')
+  XLSX.writeFile(wb, 'nota.xlsx')
 }
 </script>
 
