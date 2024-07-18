@@ -10,7 +10,7 @@
 
         <q-separator />
 
-        <q-card-section class="scroll" style="max-height: 75vh">
+        <q-card-section class="scroll" style="height: 77vh">
           <div class="row justify-center q-gutter-md">
             <!-- Nama Pelanggan -->
             <div class="col-sm-3 col-xs-10">

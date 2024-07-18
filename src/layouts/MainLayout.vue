@@ -7,9 +7,13 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 import { useAuthStore } from '/src/stores/auth-store'
 
+const $q = useQuasar()
 const authStore = useAuthStore()
+const token = localStorage.getItem('token')
 
 // Profile
 const profile = ref({})
@@ -33,6 +37,8 @@ const getProfile = async () => {
   }
 }
 onMounted(() => {
-  getProfile()
+  if (token) {
+    getProfile()
+  }
 })
 </script>
